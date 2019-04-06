@@ -41,7 +41,7 @@ module.exports = {
         }
       })
       .then(() => {
-        return User.findOneAndUpdate({ id: userId }, { $addToSet: { eventsJoined: eventId } })
+        return User.findOneAndUpdate({ id: userId, eventsCreated :{$nin: eventId} }, { $addToSet: { eventsJoined: eventId } })
       });
   }
 };
