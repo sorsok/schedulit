@@ -1,11 +1,15 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  margin-left: 2em;
-  margin-right: 2em;
+	display: flex;
+	flex-direction: column;
+	color: black;
+	border-color: #c5ec77b8;
+	border-width: 2px;
+	padding: 1em;
+	margin: 1em 0em;
+	border-radius: 1em;
 }
 
-.header{
+.header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -13,45 +17,36 @@
 
 .title {
 	cursor: pointer;
-  font-size: 25px;
+	font-size: 25px;
 }
 
 .title:hover {
 	font-weight: 400;
 }
 
-.duration{
+.duration {
 	font-size: 80%;
 	font-style: italic;
 }
 
-.description{
+.description {
 	font-size: 80%;
 }
 
-.copyButton{
+.copyButton {
 	cursor: pointer;
-width: 1.5em;
- height: 1.5em;
-  padding: 0.3em;
-
+	width: 1.5em;
+	height: 1.5em;
+	padding: 0.3em;
 }
 
-.copyMessage{
+.copyMessage {
 	display: none;
 	font-size: 50%;
 }
 
-.copyButton:hover + .copyMessage {
+.copyButton:hover+.copyMessage {
 	position: absolute;
 	display: block;
 	z-index: 1000;
 }
-
-
-
-hr{
-	border-width: 1px;
-	border-style: inset;
-}
-

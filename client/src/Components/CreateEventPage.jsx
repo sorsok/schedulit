@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import DayPicker from "./DayPicker.jsx";
-import ChooseHours from "./ChooseHours";
 import axios from "axios";
+
+import DayPicker from "./DayPicker";
+import ChooseHours from "./ChooseHours";
 import styles from "../styles/CreateEventPage.css";
-import { whileStatement } from "@babel/types";
 
 class CreateEventPage extends Component {
   constructor(props) {
@@ -17,16 +17,6 @@ class CreateEventPage extends Component {
       readyForSubmit: false
     };
     this.state.setOfDate = this.createSetOfDay();
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.addDayToSet = this.addDayToSet.bind(this);
-    this.nextMonth = this.nextMonth.bind(this);
-    this.prevMonth = this.prevMonth.bind(this);
-    this.addTimesToSet = this.addTimesToSet.bind(this);
-    this.instructionMessage = this.instructionMessage.bind(this);
-    this.isReadyForSubmit = this.isReadyForSubmit.bind(this);
-    this.showCalendar = this.showCalendar.bind(this);
-    this.showHours = this.showHours.bind(this);
   }
 
   addTimesToSet(times) {

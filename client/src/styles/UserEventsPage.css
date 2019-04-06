@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+}
+
+.eventListContainer {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.eventList {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.h2 {
+  color: #27ae54;
+}
+
+.h3 {
+  color: #27ae54;
+  align-self: center;
+}
