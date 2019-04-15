@@ -1,8 +1,17 @@
-import React, { Component } from "react";
-import styles from "../styles/login.css";
+import * as React from "react";
 
-class LoginPage extends Component {
-  constructor(props) {
+import * as styles from "../styles/Login.css";
+
+interface Props {
+  openLoginPopup: Function
+}
+
+interface State {
+}
+
+
+class LoginPage extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
   }
 
@@ -19,7 +28,7 @@ class LoginPage extends Component {
               className={styles.button}
               onClick={this.props.openLoginPopup}
             >
-              <img src ="GoogleButton.png" width="240" height="50"></img>
+              <img src="GoogleButton.png" width="240" height="50"></img>
             </button>
           </div>
         </div>

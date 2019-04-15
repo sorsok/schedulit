@@ -5,6 +5,10 @@ import *  as styles from '../styles/App.css'
 import LoginPage from './LoginPage';
 import MainDisplay from './MainDisplay';
 
+declare global {
+  interface Window { logUserIn: Function }
+}
+
 interface Props {
 }
 
@@ -20,11 +24,11 @@ class App extends React.Component<Props, State> {
     };
     this.isUserInSession();
     Cookies.remove('sendToHome');
-    var logUserIn = this.logUserIn;
+    window.logUserIn = this.logUserIn;
   }
 
   isUserInSession = (): Promise<void> => {
-    return axios.get('/api/user').then(({ data }) => this.setState({ loggedIn: data.id }));
+    return axios.get('/api/user').then(({ data }) => this.setState({ loggedIn: data._id }));
   }
 
   logUserIn = (): void => {

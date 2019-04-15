@@ -1,40 +1,40 @@
-.container{
+.container {
 	display: flex;
-justify-content: center;
+	justify-content: center;
 	align-items: flex-end;
 	height: 50vh;
 }
 
-.inner{
+.inner {
 	display: flex;
 	flex-direction: column;
-justify-content: center;
-align-items: center;
-
+	justify-content: center;
+	align-items: center;
 }
-.directions{
+
+.directions {
 	padding: 2em;
 	text-align: center;
 }
 
-.loginCenter{
+.loginCenter {
 	display: flex;
 	justify-content: center;
 }
 
 .button {
-		padding-top: 5em;
-		background-color: transparent;
-		cursor: pointer;
+	padding-top: 5em;
+	background-color: transparent;
+	cursor: pointer;
 }
 
-.google{
+.google {
 	font-size: 200%;
 }
 
 .schedulIt {
-  color: #27ae54;
-  font-size: 400%;
+	color: #27ae54;
+	font-size: 400%;
 	font-weight: 700;
 	height: 100%;
 	display: flex;
