@@ -26,7 +26,7 @@ module.exports.getPassport = () => {
       },
       (token, refreshToken, profile, done) => {
         User.findOneAndUpdate(
-          { "googleProfile.id": profile.id },
+          { "googleProfile.sub": profile.id },
           { googleProfile: profile._json },
           { upsert: true, new: true }
         ).then(userDocument => {
