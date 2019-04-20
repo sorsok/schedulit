@@ -8,7 +8,7 @@ const {
   GraphQLList
 } = require('graphql');
 
-const { User } = require('../database/models');
+const { User, Participation, Event } = require('../database/models');
 
 const TimeSlotType = new GraphQLObjectType({
   name: 'TimeSlot',
@@ -18,47 +18,80 @@ const TimeSlotType = new GraphQLObjectType({
   }
 });
 
-const ParticipationType = new GraphQLObjectType({
-  name: 'Participation',
-  fields: {
-    _id: { type: GraphQLString },
-    userId: { type: GraphQLString },
-    eventId: { type: GraphQLString },
-    unavailable: { type: GraphQLBoolean },
-    timeAvailable: { type: new GraphQLList(TimeSlotType) }
-  }
-});
 
 const EventType = new GraphQLObjectType({
   name: 'Event',
-  fields: {
+  fields: () => ({
     _id: { type: GraphQLString },
-    creatorId: { type: GraphQLString },
+    creator: {
+      type: UserType,
+      resolve(parentValue, args) {
+        return User.findOne({ _id: parentValue.creatorId })
+      }
+    },
     title: { type: GraphQLString },
     description: { type: GraphQLString },
     availableSlots: { type: new GraphQLList(TimeSlotType) },
-    participations: { type: new GraphQLList(ParticipationType) },
-  }
+    participations: {
+      type: new GraphQLList(ParticipationType),
+      resolve(parentValue, args) {
+        return Participation.find({ _id: { $in: parentValue.participations } });
+      }
+    },
+  })
+});
+
+const ParticipationType = new GraphQLObjectType({
+  name: 'Participation',
+  fields: () => ({
+    _id: { type: GraphQLString },
+    user: {
+      type: UserType,
+      resolve(parentValue, args) {
+        return User.findOne({ _id: parentValue.userId })
+      }
+    },
+    event: {
+      type: EventType,
+      resolve(parentValue, args) {
+        console.log("participation", parentValue);
+        return Event.findOne({ _id: parentValue.eventId })
+      }
+    },
+    unavailable: { type: GraphQLBoolean },
+    timeAvailable: { type: new GraphQLList(TimeSlotType) }
+  })
 });
 
 const UserType = new GraphQLObjectType({
   name: 'User',
-  fields: {
+  fields: () => ({
     _id: { type: GraphQLString },
-    googleProfile: { type: GraphQLJSON },
-    eventsCreated: { type: new GraphQLList(EventType) },
-    eventsJoined: { type: new GraphQLList(EventType) }
-  }
+    sub: { type: GraphQLString },
+    name: { type: GraphQLString },
+    given_name: { type: GraphQLString },
+    family_name: { type: GraphQLString },
+    profile: { type: GraphQLString },
+    picture: { type: GraphQLString },
+    locale: { type: GraphQLString },
+    participations: {
+      type: new GraphQLList(ParticipationType),
+      resolve(parentValue, args) {
+        return Participation.find({
+          _id: { $in: parentValue.participations }
+        });
+      }
+    }
+  })
 });
 
 const RootQueryType = new GraphQLObjectType({
   name: 'RootQuery',
   fields: {
-    user: {
+    me: {
       type: UserType,
-      args: { id: { type: GraphQLString } },
-      resolve(parentValue, args) {
-        return User.findOne();
+      resolve(parentValue, args, req) {
+        return User.findOne({ _id: req.user._id });
       }
     }
   }
