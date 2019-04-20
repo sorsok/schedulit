@@ -5,7 +5,6 @@ import { ApolloProvider } from 'react-apollo';
 
 
 import LoginPage from './LoginPage';
-import MainDisplay from './MainDisplay';
 import EventDetailsPage from './EventDetailsPage';
 import UserEventsPage from './UserEventsPage';
 import CreateEventPage from './CreateEventPage';

@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import Navigation from './Navigation';
 import DayPicker from "./DayPicker";
 import ChooseHours from "./ChooseHours";
+
+import appStyles from '../styles/App.css'
 import styles from "../styles/CreateEventPage.css";
 
 class CreateEventPage extends Component {
@@ -207,35 +210,38 @@ class CreateEventPage extends Component {
     }
 
     return (
-      <div className={styles.createPage}>
-        <div className={styles.eventInvitation}>
-          {this.instructionMessage()}
-        </div>
-        <div className={styles.createContainer}>
-          <div className={styles.detailsContainer}>
-            <div className={styles.inputFormContainer}>
-              <form onSubmit={this.handleSubmit}>
-                <label className={styles.eventForm}>
-                  <input
-                    name="title"
-                    type="text"
-                    placeholder="Event Title"
-                    onChange={this.handleChange}
-                    className={styles.input}
-                  />
-                  <input
-                    name="description"
-                    type="text"
-                    placeholder="Event Description"
-                    onChange={this.handleChange}
-                    className={styles.input}
-                  />
-                </label>
-                <div className={styles.hoursContainer}>{this.showHours()}</div>
-                {this.isReadyForSubmit()}
-              </form>
+      <div className={appStyles.masterContainer}>
+        <Navigation />
+        <div className={styles.createPage}>
+          <div className={styles.eventInvitation}>
+            {this.instructionMessage()}
+          </div>
+          <div className={styles.createContainer}>
+            <div className={styles.detailsContainer}>
+              <div className={styles.inputFormContainer}>
+                <form onSubmit={this.handleSubmit}>
+                  <label className={styles.eventForm}>
+                    <input
+                      name="title"
+                      type="text"
+                      placeholder="Event Title"
+                      onChange={this.handleChange}
+                      className={styles.input}
+                    />
+                    <input
+                      name="description"
+                      type="text"
+                      placeholder="Event Description"
+                      onChange={this.handleChange}
+                      className={styles.input}
+                    />
+                  </label>
+                  <div className={styles.hoursContainer}>{this.showHours()}</div>
+                  {this.isReadyForSubmit()}
+                </form>
+              </div>
+              {this.showCalendar()}
             </div>
-            {this.showCalendar()}
           </div>
         </div>
       </div>
