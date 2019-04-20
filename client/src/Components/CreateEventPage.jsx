@@ -17,6 +17,13 @@ class CreateEventPage extends Component {
       readyForSubmit: false
     };
     this.state.setOfDate = this.createSetOfDay();
+    this.addTimesToSet = this.addTimesToSet.bind(this);
+    this.nextMonth = this.nextMonth.bind(this);
+    this.prevMonth = this.prevMonth.bind(this);
+    this.addTimesToSet = this.addTimesToSet.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.addDayToSet = this.addDayToSet.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   addTimesToSet(times) {
@@ -169,6 +176,7 @@ class CreateEventPage extends Component {
         newEvent.availableSlots.push(timeSlot);
       }
     }
+    console.log(JSON.stringify(newEvent));
     axios.post("/api/event", newEvent).then(({ data }) => {
       this.setState({ eventId: data.id });
     });
