@@ -19,7 +19,10 @@ mainRouter
   .get('/protected', ensureAuthenticated, (req, res) => res.send('access granted. secure stuff happens here'))
   .get('/auth/google', authenticateUser)
   .get('/auth/google/callback', authenticateUser2, giveUserSessionToken)
-  .get('/', sendIndex);
+  .get('/', sendIndex)
+  .get('/login', sendIndex)
+  .get('/events/:id', sendIndex)
+  .get('/events/new', sendIndex);
 
 
 module.exports.mainRouter = mainRouter;
