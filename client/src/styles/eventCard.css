@@ -18,10 +18,15 @@
 .title {
 	cursor: pointer;
 	font-size: 25px;
+	text-decoration: none;
 }
 
 .title:hover {
-	font-weight: 400;
+	font-weight: 600;
+}
+
+.title:visited {
+	color: black;
 }
 
 .duration {

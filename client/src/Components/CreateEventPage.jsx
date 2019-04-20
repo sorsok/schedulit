@@ -5,7 +5,7 @@ import Navigation from './Navigation';
 import DayPicker from "./DayPicker";
 import ChooseHours from "./ChooseHours";
 
-import appStyles from '../styles/App.css'
+import appStyles from '../styles/App.css';
 import styles from "../styles/CreateEventPage.css";
 
 class CreateEventPage extends Component {

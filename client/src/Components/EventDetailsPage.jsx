@@ -1,7 +1,11 @@
 import React from 'react';
+
 import GroupPreview from './GroupPreview';
 import IndividualPreview from './IndividualPreview';
-import axios from 'axios';
+import Navigation from './Navigation';
+
+import appStyles from '../styles/App.css';
+
 
 class EventDetailsPage extends React.Component {
   constructor(props) {
@@ -88,22 +92,23 @@ class EventDetailsPage extends React.Component {
   render() {
     if (this.state.eventParticipationData === undefined) return <div />;
     return (
-      <div >
-      <div style={{display: 'flex', flexDirection: 'column', alignItems:'center'}}>
-        <h1 >{this.props.eventData.title}</h1>
-				</div>
+      <div className={appStyles.masterContainer}>
+        <Navigation />
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <h1 >{this.props.eventData.title}</h1>
+        </div>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <IndividualPreview
-         			socket={this.state.socket}
-              eventData={this.state.eventParticipationData}
-              earliestMinutesInDay={this.state.earliestMinutesInDay}
-              latestMinutesInDay={this.state.latestMinutesInDay}
-            />
-            <GroupPreview
-              eventData={this.state.eventParticipationData}
-              earliestMinutesInDay={this.state.earliestMinutesInDay}
-              latestMinutesInDay={this.state.latestMinutesInDay}
-            />
+          <IndividualPreview
+            socket={this.state.socket}
+            eventData={this.state.eventParticipationData}
+            earliestMinutesInDay={this.state.earliestMinutesInDay}
+            latestMinutesInDay={this.state.latestMinutesInDay}
+          />
+          <GroupPreview
+            eventData={this.state.eventParticipationData}
+            earliestMinutesInDay={this.state.earliestMinutesInDay}
+            latestMinutesInDay={this.state.latestMinutesInDay}
+          />
         </div>
       </div>
     );
