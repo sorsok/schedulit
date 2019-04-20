@@ -6,12 +6,14 @@ let timeSlotSchema = mongoose.Schema({
 });
 
 let userSchema = mongoose.Schema({
-  googleProfile: {
-    type: Map,
-    of: String
-  },
-  eventsCreated: { type: [{ type: ObjectId, ref: 'Event' }], default: [] },
-  eventsJoined: { type: [{ type: ObjectId, ref: 'Event' }], default: [] }
+  sub: String,
+  name: String,
+  given_name: String,
+  family_name: String,
+  profile: String,
+  picture: String,
+  locale: String,
+  participations: { type: [{ type: ObjectId, ref: 'Participation' }], default: [] },
 });
 
 let participationSchema = mongoose.Schema({
