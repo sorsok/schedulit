@@ -5,7 +5,8 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLBoolean,
-  GraphQLList
+  GraphQLList,
+  GraphQLInputObjectType
 } = require('graphql');
 
 const { User, Participation, Event } = require('../database/models');
@@ -85,6 +86,7 @@ const UserType = new GraphQLObjectType({
   })
 });
 
+
 const RootQueryType = new GraphQLObjectType({
   name: 'RootQuery',
   fields: {
@@ -97,21 +99,85 @@ const RootQueryType = new GraphQLObjectType({
   }
 });
 
+const InputTimeSlotType = new GraphQLInputObjectType({
+  name: 'InputTimeSlot',
+  fields: {
+    startTime: { type: GraphQLDateTime },
+    endTime: { type: GraphQLDateTime }
+  }
+});
 
-const mutationType = new GraphQLObjectType({
+const InputParticipationType = new GraphQLInputObjectType({
+  name: 'InputParticipation',
+  fields: () => ({
+    eventId: { type: GraphQLString, },
+    unavailable: { type: GraphQLBoolean },
+    timeAvailable: { type: new GraphQLList(InputTimeSlotType) }
+  })
+});
+
+const InputEventType = new GraphQLInputObjectType({
+  name: 'InputEvent',
+  fields: () => ({
+    title: { type: GraphQLString },
+    description: { type: GraphQLString },
+    availableSlots: { type: new GraphQLList(InputTimeSlotType) },
+    participants: { type: new GraphQLList(GraphQLString) }
+  })
+});
+
+const MutationType = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
-    hello: {
-      type: GraphQLString,
+    participate: {
+      type: ParticipationType,
       args: {
-        x: { type: GraphQLString }
+        participation: { type: InputParticipationType }
       },
-      resolve: (_, { x }, req) => {
-        return x + '!';
+      resolve(parentValue, { participation }, req) {
+        const userId = req.user._id;
+        const { eventId } = participation;
+        return Participation.findOneAndUpdate(
+          { userId, eventId },
+          participation,
+          { upsert: true });
+      }
+    },
+    createEvent: {
+      type: EventType,
+      args: {
+        event: { type: InputEventType }
+      },
+      resolve(parentValue, { event }, req) {
+        //create event document
+        const userId = req.user._id;
+        event.creatorId = userId;
+        const newEvent = new Event(event);
+
+        //create participation document
+        const eventId = newEvent._id;
+        const newParticipation = new Participation({
+          userId,
+          eventId,
+          unavailable: false,
+          timeAvailable: []
+        });
+
+        //add participation to event
+        const participationId = newParticipation._id;
+        newEvent.participations = [participationId];
+
+        //update user and save new documents
+        return User.findOneAndUpdate(
+          { _id: userId },
+          { $push: { participations: participationId } }
+        )
+          .then(() => newParticipation.save())
+          .then(() => newEvent.save());
       }
     }
   }
 });
 
 
-module.exports.schema = new GraphQLSchema({ query: RootQueryType, mutation: mutationType });
+module.exports.schema = new GraphQLSchema({ query: RootQueryType, mutation: MutationType });

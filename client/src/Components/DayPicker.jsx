@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from '../styles/DayPicker.css';
-import classnames from 'classnames';
 import Day from './Day.jsx';
 
 import YearMonthHeader from './YearMonthHeader';
@@ -35,7 +34,7 @@ class DayPicker extends React.Component {
       );
       if (date.getDay() === 6) {
         weekComponents.push(
-          <div className={styles.week}>
+          <div className={styles.week} key={weekComponents.length}>
             {currentWeek}
           </div>
         )
@@ -58,8 +57,8 @@ class DayPicker extends React.Component {
           />
           <div className={styles.weeksContainer} >
             <div className={styles.week}>
-              {DAYSOFWEEK.map(day => (
-                <div className={styles.dayContainer}>
+              {DAYSOFWEEK.map((day, index) => (
+                <div className={styles.dayContainer} key={index}>
                   {day}
                 </div>
               ))}

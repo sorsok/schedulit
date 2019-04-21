@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import axios from "axios";
+import { graphql } from 'react-apollo';
+import { Link } from 'react-router-dom';
 
 import Navigation from './Navigation';
 import DayPicker from "./DayPicker";
 import ChooseHours from "./ChooseHours";
+import createEvent from '../queries/createEvent';
+import userEvents from '../queries/userEvents';
 
 import appStyles from '../styles/App.css';
 import styles from "../styles/CreateEventPage.css";
@@ -161,7 +164,6 @@ class CreateEventPage extends Component {
     newEvent.title = this.state.title;
     newEvent.description = this.state.description;
     newEvent.participants = [];
-    newEvent.allowedPreferences = ["activity", "food"];
     newEvent.availableSlots = [];
     for (let day in this.state.setOfDate) {
       let set = this.state.setOfDate[day];
@@ -179,10 +181,11 @@ class CreateEventPage extends Component {
         newEvent.availableSlots.push(timeSlot);
       }
     }
-    console.log(JSON.stringify(newEvent));
-    axios.post("/api/event", newEvent).then(({ data }) => {
-      this.setState({ eventId: data.id });
-    });
+    this.props.mutate({
+      variables: { event: newEvent },
+      refetchQueries: [{ query: userEvents }]
+    })
+      .then(({ data }) => this.setState({ eventId: data.createEvent._id }));
   }
   render() {
     if (this.state.eventId) {
@@ -195,17 +198,14 @@ class CreateEventPage extends Component {
             fontWeight: '600',
             borderRadius: '2em',
           }}>
-
             <div style={{ padding: '1em' }}>
               {`Share the following link: `}
             </div>
-            <a style={{ padding: '1em' }} href={"/join/" + this.state.eventId}>
-              {`${document.URL}join/${this.state.eventId} `}
-            </a>
-
-
+            <Link style={{ padding: '1em' }} to={`/events/${this.state.eventId}`}>
+              {`${window.location.origin}/events/${this.state.eventId}`}
+            </Link>
           </div>
-        </div>
+        </div >
       );
     }
 
@@ -249,4 +249,4 @@ class CreateEventPage extends Component {
   }
 }
 
-export default CreateEventPage;
+export default graphql(createEvent)(CreateEventPage);
