@@ -24,6 +24,7 @@ class IndividualPreview extends React.Component {
     this.toggleTimeAvailable = this.toggleTimeAvailable.bind(this);
     this.turnOffSelection = this.turnOffSelection.bind(this);
     this.updateState = this.updateState.bind(this);
+    this.renderIndividualAvailability = this.renderIndividualAvailability.bind(this);
   }
 
   handleChange(e) {
@@ -119,55 +120,64 @@ class IndividualPreview extends React.Component {
     this.setState(newState);
   }
 
-  render() {
+  renderIndividualAvailability() {
     if (!this.state.availableSlots) {
-      return <img className={appStyles.loader} src={loader} />;
+      return (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <img className={appStyles.loader} src={loader} />
+        </div>
+      );
     }
     const { timeAvailable, unavailable, availableSlots, selecting, mouseDown } = this.state;
     const { minMaxTime, availableDates } = this.props;
     return (
+      <form className={styles.form} onSubmit={this.handleSubmit}>
+        <div
+          className={styles.timeSelection}
+          style={unavailable ? { display: "none" } : {}}
+        >
+          <TimeAxis
+            minMaxTime={minMaxTime}
+            numberOfDays={availableDates.length}
+          />
+          <div className={styles.timeSlotsContainer} onMouseLeave={this.turnOffSelection}>
+            {availableDates.map((date) => {
+              return (
+                <SelectableTimeSlot
+                  minMaxTime={minMaxTime}
+                  date={date}
+                  key={date}
+                  selecting={selecting}
+                  mouseDown={mouseDown}
+                  availableSlots={availableSlots}
+                  timeAvailable={timeAvailable}
+                  toggleTimeAvailable={this.toggleTimeAvailable}
+                  updateState={this.updateState}
+                />
+              );
+            })}
+          </div>
+        </div>
+        <div className={styles.unavailableContainer}>
+          <div className={styles.unavailableMessage}>
+            Unable to Attend
+          </div>
+          <input name="unavailable"
+            type="checkbox"
+            checked={this.state.unavailable}
+            onChange={this.handleChange} />
+        </div>
+        <div className={styles.submitContainer}>
+          <input className={styles.submit} type="submit" name="submit" />
+        </div>
+      </form>
+    );
+  }
+  render() {
+    return (
       <div className={styles.container}>
         <div className={styles.title}>My Availability</div>
-        <form className={styles.form} onSubmit={this.handleSubmit}>
-          <div
-            className={styles.timeSelection}
-            style={unavailable ? { display: "none" } : {}}
-          >
-            <TimeAxis
-              minMaxTime={minMaxTime}
-              numberOfDays={availableDates.length}
-            />
-            <div className={styles.timeSlotsContainer} onMouseLeave={this.turnOffSelection}>
-              {availableDates.map((date) => {
-                return (
-                  <SelectableTimeSlot
-                    minMaxTime={minMaxTime}
-                    date={date}
-                    key={date}
-                    selecting={selecting}
-                    mouseDown={mouseDown}
-                    availableSlots={availableSlots}
-                    timeAvailable={timeAvailable}
-                    toggleTimeAvailable={this.toggleTimeAvailable}
-                    updateState={this.updateState}
-                  />
-                );
-              })}
-            </div>
-          </div>
-          <div className={styles.unavailableContainer}>
-            <div className={styles.unavailableMessage}>
-              Unable to Attend
-              </div>
-            <input name="unavailable"
-              type="checkbox"
-              checked={this.state.unavailable}
-              onChange={this.handleChange} />
-          </div>
-          <div className={styles.submitContainer}>
-            <input className={styles.submit} type="submit" name="submit" />
-          </div>
-        </form>
+        {this.renderIndividualAvailability()}
       </div>
     );
   }

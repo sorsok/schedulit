@@ -14,6 +14,13 @@ query MyParticipation($eventId: String){
         startTime
         endTime
       }
+      participations{
+        _id
+        user{
+          _id
+          name
+        }
+      }
     }
     unavailable
     timeAvailable{

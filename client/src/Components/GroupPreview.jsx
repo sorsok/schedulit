@@ -8,10 +8,13 @@ import TimeAxis from "./TimeAxis";
 import styles from "../styles/GroupPreview.css";
 import myParticipation from "../queries/myParticipation";
 import otherParticipations from '../queries/otherParticipations';
+import appStyles from '../styles/App.css';
+import loader from '../assets/loader.gif';
 
 class GroupPreview extends React.Component {
   constructor(props) {
     super(props);
+    this.renderGroupAvailability = this.renderGroupAvailability.bind(this);
   }
 
   parseTimeSlot(slot) {
@@ -21,9 +24,12 @@ class GroupPreview extends React.Component {
     }
   }
 
-  render() {
+  renderGroupAvailability() {
     if (this.props.myParticipation.loading || this.props.otherParticipations.loading) {
-      return <div />;
+      return (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <img className={appStyles.loader} src={loader} />
+        </div>);
     }
     const { minMaxTime, availableDates, otherParticipations, myParticipation } = this.props;
     const myParticipationParsed = {
@@ -44,8 +50,7 @@ class GroupPreview extends React.Component {
       otherParticipations: otherParticipationsParsed
     };
     return (
-      <div className={styles.container}>
-        <div className={styles.title}>Everyone's Availability </div>
+      <>
         <div className={styles.timeSlotContainer}>
           <TimeAxis
             minMaxTime={minMaxTime}
@@ -64,6 +69,15 @@ class GroupPreview extends React.Component {
           })}
         </div>
         <Legend participations={participations} />
+      </>
+    );
+  }
+
+  render() {
+    return (
+      <div className={styles.container}>
+        <div className={styles.title}>Everyone's Availability </div>
+        {this.renderGroupAvailability()}
       </div>
     );
   }
