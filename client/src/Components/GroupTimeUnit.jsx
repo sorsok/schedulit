@@ -6,14 +6,25 @@ class GroupTimeUnit extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  renderSelections() {
+    if (!this.props.selectable) {
+      return <div className={styles.unselectable} />
+    }
+    let selections = [];
+    selections.push(<div className={this.props.userSelected ? styles.userSelected : styles.userUnselected} key={-1} />);
+    selections = selections.concat(this.props.otherParticipantsSelected
+      .map((selection, index) => <div key={index} className={selection ? styles['selected' + index] : styles['unselected' + index]}></div>)
+    );
+    return selections;
+  }
+
   render() {
     return (
-      <div
-        className={styles.slotContainer} >
-        {this.props.selected.map((selection, index) => <div key={index} className={selection ? styles['selected' + index] : styles.unselected}></div>)}
+      <div className={styles.slotContainer} >
+        {this.renderSelections()}
       </ div>
     )
-
   }
 }
 export default GroupTimeUnit;

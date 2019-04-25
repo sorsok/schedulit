@@ -1,52 +1,83 @@
-.slotContainer{
+.slotContainer {
   display: flex;
   height: 1em;
   width: 4em;
   justify-content: center;
+  border-color: white;
+  border-width: 1px;
 }
 
-.unselected{
+.unselectable {
+  background-color: #ddd;
   width: 100%;
-
 }
 
-.selected0{
+.userSelected {
   background-color: #30cfd0;
   width: 100%;
 }
 
-.selected1{
+.userUnselected {
+  background-color: #30d0d03d;
+  width: 100%;
+}
+
+.selected0 {
   background-color: #009efd;
   width: 100%;
-
 }
 
-.selected2{
+.unselected0 {
+  background-color: #009cfd36;
+  width: 100%;
+}
+
+.selected1 {
   background-color: #96fbc4;
   width: 100%;
-
 }
 
-.selected3{
+.unselected1 {
+  background-color: #96fbc32d;
+  width: 100%;
+}
+
+.selected2 {
   background-color: chocolate;
   width: 100%;
-
 }
 
-.selected4{
+.unselected2 {
+  background-color: rgba(210, 105, 30, 0.253);
+  width: 100%;
+}
+
+.selected3 {
   background-color: darkgreen;
   width: 100%;
-
 }
 
-.selected5{
+.unselected3 {
+  background-color: rgba(0, 100, 0, 0.253);
+  width: 100%;
+}
+
+.selected4 {
   background-color: blanchedalmond;
   width: 100%;
-
 }
 
-.selected6{
+.unselected4 {
+  background-color: rgba(255, 235, 205, 0.26);
+  width: 100%;
+}
+
+.selected5 {
   background-color: darkolivegreen;
   width: 100%;
+}
 
+.unselected5 {
+  background-color: rgba(85, 107, 47, 0.219);
+  width: 100%;
 }

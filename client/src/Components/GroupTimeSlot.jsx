@@ -1,67 +1,76 @@
 import React from "react";
 import GroupTimeUnit from "./GroupTimeUnit";
 
+
 import styles from "../styles/GroupTimeSlot.css";
+
+const UNIT_INCREMENTS = 15;
+
 
 class GroupTimeSlot extends React.Component {
   constructor(props) {
     super(props);
-    this.getSlotStatus = this.getSlotStatus.bind(this);
+    this.hasUserSelected = this.hasUserSelected.bind(this);
+    this.haveOtherParticipantsSelected = this.haveOtherParticipantsSelected.bind(this);
+    this.isTimeStampSelectable = this.isTimeStampSelectable.bind(this);
   }
 
   timestampLiesInSlot(timestamp, timeSlot) {
-    timestamp = new Date(timestamp);
     return (
       timestamp.getTime() >= timeSlot.startTime.getTime() &&
       timestamp.getTime() < timeSlot.endTime.getTime()
     );
   }
 
-  getSlotStatus() {
-    let slotStatus = {}; //keys are timestamps; val is true/false for selectable, null for unselectable
-    let numberOfSlots =
-      (this.props.latestMinutesInDay - this.props.earliestMinutesInDay) / 15;
-    let stub = new Date(
-      this.props.timeSlot.startTime.getFullYear(),
-      this.props.timeSlot.startTime.getMonth(),
-      this.props.timeSlot.startTime.getDate()
-    ).getTime();
-    for (let i = 0; i < numberOfSlots; i++) {
-      let currentTimeStamp = new Date(
-        stub + (this.props.earliestMinutesInDay + i * 15) * 60 * 1000
-      );
-      let userAvailabilities = [];
-      for (let participation of this.props.eventData.participations) {
-        let isAvailable = participation.timeAvailable.some(timeSlot =>
-          this.timestampLiesInSlot(currentTimeStamp, timeSlot)
-        );
-        userAvailabilities.push(isAvailable);
-      }
-      slotStatus[currentTimeStamp] = userAvailabilities;
+  createTimeStamps() {
+    const numberOfTimeStamps = (this.props.minMaxTime.latestTimeInDay - this.props.minMaxTime.earliestTimeInDay) / (UNIT_INCREMENTS * 60 * 1000);
+    const timeStamps = [];
+    for (let i = 0; i < numberOfTimeStamps; i++) {
+      let currentTimeStamp = new Date(this.props.date.getTime() + this.props.minMaxTime.earliestTimeInDay + (i * UNIT_INCREMENTS * 60 * 1000));
+      timeStamps.push(currentTimeStamp);
     }
-    return slotStatus;
+    return timeStamps;
+  }
+
+  isTimeStampSelectable(timeStamp) {
+    return this.props.availableSlots.some(slot => {
+      return this.timestampLiesInSlot(timeStamp, slot);
+    })
+  }
+
+  hasUserSelected(timeStamp) {
+    const { unavailable, timeAvailable } = this.props.participations.myParticipation;
+    if (unavailable) return false;
+    return timeAvailable.some(slot => this.timestampLiesInSlot(timeStamp, slot));
+  }
+
+  haveOtherParticipantsSelected(timeStamp) {
+    return this.props.participations.otherParticipations.map(({ unavailable, timeAvailable }) => {
+      if (unavailable) return false;
+      return timeAvailable.some(slot => this.timestampLiesInSlot(timeStamp, slot));
+    });
   }
 
   render() {
-    let slotStatus = this.getSlotStatus();
     return (
       <div className={styles.container}>
         <div className={styles.date}>
           {new Intl.DateTimeFormat("en-US", {
             month: "short",
             day: "2-digit"
-          }).format(this.props.timeSlot.startTime)}
+          }).format(this.props.date)}
         </div>
-				<div>
-
-        {Object.keys(slotStatus).map((timeStamp, index) => (
-					<GroupTimeUnit
-					selected={slotStatus[timeStamp]}
-					slotStartTime={timeStamp}
-					key={index}
-          />
-					))}
-					</div>
+        <div>
+          {this.createTimeStamps().map(timeStamp => (
+            <GroupTimeUnit
+              otherParticipantsSelected={this.haveOtherParticipantsSelected(timeStamp)}
+              userSelected={this.hasUserSelected(timeStamp)}
+              timeStamp={timeStamp}
+              selectable={this.isTimeStampSelectable(timeStamp)}
+              key={timeStamp}
+            />
+          ))}
+        </div>
       </div>
     );
   }

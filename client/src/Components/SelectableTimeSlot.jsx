@@ -43,10 +43,10 @@ class SelectableTimeSlot extends React.Component {
   }
 
   createTimeStamps() {
-    const numberOfTimeStamps = (this.props.latestTimeInDay - this.props.earliestTimeInDay) / (UNIT_INCREMENTS * 60 * 1000);
+    const numberOfTimeStamps = (this.props.minMaxTime.latestTimeInDay - this.props.minMaxTime.earliestTimeInDay) / (UNIT_INCREMENTS * 60 * 1000);
     const timeStamps = [];
     for (let i = 0; i < numberOfTimeStamps; i++) {
-      let currentTimeStamp = new Date(this.props.date.getTime() + this.props.earliestTimeInDay + (i * UNIT_INCREMENTS * 60 * 1000));
+      let currentTimeStamp = new Date(this.props.date.getTime() + this.props.minMaxTime.earliestTimeInDay + (i * UNIT_INCREMENTS * 60 * 1000));
       timeStamps.push(currentTimeStamp);
     }
     return timeStamps;

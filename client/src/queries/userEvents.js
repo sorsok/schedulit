@@ -3,7 +3,9 @@ import gql from "graphql-tag";
 export default gql`
 {
   me {
+    _id
     participations{
+      _id
       event {
         _id
         title
@@ -13,7 +15,9 @@ export default gql`
           endTime
         }
         participations {
+          _id
           user {
+            _id
             name
           }
         }

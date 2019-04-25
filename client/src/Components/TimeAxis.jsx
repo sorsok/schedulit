@@ -11,16 +11,15 @@ class TimeAxis extends React.Component {
 	}
 
 	getTimeAxisUnits() {
-		let numberOfSlots = (this.props.latestTimeInDay - this.props.earliestTimeInDay) / (UNIT_INCREMENTS * 60 * 1000);
+		let numberOfSlots = (this.props.minMaxTime.latestTimeInDay - this.props.minMaxTime.earliestTimeInDay) / (UNIT_INCREMENTS * 60 * 1000);
 		let stub = new Date(0, 0, 0).getTime();
 		let timeAxisUnits = [];
 		for (let i = 0; i <= numberOfSlots; i++) {
-			let currentTimeStamp = new Date(stub + this.props.earliestTimeInDay + (i * UNIT_INCREMENTS * 60 * 1000));
+			let currentTimeStamp = new Date(stub + this.props.minMaxTime.earliestTimeInDay + (i * UNIT_INCREMENTS * 60 * 1000));
 			timeAxisUnits.push(<TimeAxisUnit
 				key={currentTimeStamp}
 				timestamp={currentTimeStamp}
 				numberOfDays={this.props.numberOfDays}
-			// display={i === 0 || i === numberOfSlots}
 			/>);
 		}
 		return timeAxisUnits;

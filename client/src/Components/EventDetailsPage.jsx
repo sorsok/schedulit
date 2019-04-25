@@ -17,15 +17,48 @@ class EventDetailsPage extends React.Component {
     this.props.mutate({ variables: { eventId: props.match.params.id } })
       .then(({ data }) => {
         const newState = {
+          participationId: data.createParticipation._id,
           eventId: data.createParticipation.event._id,
           title: data.createParticipation.event.title,
           description: data.createParticipation.event.description,
-          participationId: data.createParticipation._id
-
+          availableSlots: data.createParticipation.event.availableSlots.map(this.parseTimeSlot)
         }
         this.setState(newState);
       });
     this.renderEventDetails = this.renderEventDetails.bind(this);
+    this.findMinMaxTime = this.findMinMaxTime.bind(this);
+    this.findAvailableDates = this.findAvailableDates.bind(this);
+  }
+
+  parseTimeSlot(slot) {
+    return {
+      startTime: new Date(slot.startTime),
+      endTime: new Date(slot.endTime)
+    }
+  }
+
+  findMinMaxTime() {
+    let earliestTimeInDay = 24 * 60 * 60 * 1000;
+    let latestTimeInDay = 0;
+    this.state.availableSlots.forEach(slot => {
+      let startOfDay = new Date(slot.startTime.toDateString());
+      let start = slot.startTime.getTime() - startOfDay.getTime();
+      earliestTimeInDay = start < earliestTimeInDay ? start : earliestTimeInDay;
+      let end = slot.endTime.getTime() - startOfDay.getTime();
+      latestTimeInDay = end > latestTimeInDay ? end : latestTimeInDay;
+    });
+    return { earliestTimeInDay, latestTimeInDay };
+  }
+
+
+  findAvailableDates() {
+    let availableDates = {};
+    this.state.availableSlots.forEach(slot => {
+      availableDates[slot.startTime.toDateString()] = true;
+    });
+    availableDates = Object.keys(availableDates).map(date => new Date(date));
+    availableDates.sort();
+    return availableDates;
   }
 
   renderEventDetails() {
@@ -33,6 +66,9 @@ class EventDetailsPage extends React.Component {
     if (!title) {
       return <div />;
     }
+    const minMaxTime = this.findMinMaxTime();
+    const availableDates = this.findAvailableDates();
+
     if (title) {
       return (
         <>
@@ -41,8 +77,17 @@ class EventDetailsPage extends React.Component {
             {description}
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <IndividualPreview eventId={eventId} participationId={participationId} />
-            {/* <GroupPreview eventId={eventId} /> */}
+            <IndividualPreview
+              participationId={participationId}
+              eventId={eventId}
+              minMaxTime={minMaxTime}
+              availableDates={availableDates}
+            />
+            <GroupPreview
+              eventId={eventId}
+              minMaxTime={minMaxTime}
+              availableDates={availableDates}
+            />
           </div>
         </>
       );

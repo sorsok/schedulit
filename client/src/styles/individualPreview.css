@@ -4,6 +4,9 @@
 	padding: 1em 3em;
 	margin: 3em;
 	user-select: none;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
 }
 
 .title {
@@ -11,6 +14,12 @@
 	font-weight: 500;
 	font-size: 150%;
 	text-align: center;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .timeSelection {

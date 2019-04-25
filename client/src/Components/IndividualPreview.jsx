@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 
 import SelectableTimeSlot from "./SelectableTimeSlot";
 import styles from "../styles/IndividualPreview.css";
@@ -26,29 +26,6 @@ class IndividualPreview extends React.Component {
     this.updateState = this.updateState.bind(this);
   }
 
-  findEarliestLatestTime(availableSlots) {
-    let earliestTimeInDay = 24 * 60 * 60 * 1000;
-    let latestTimeInDay = 0;
-    availableSlots.forEach(slot => {
-      let startOfDay = new Date(slot.startTime.toDateString());
-      let start = slot.startTime.getTime() - startOfDay.getTime();
-      earliestTimeInDay = start < earliestTimeInDay ? start : earliestTimeInDay;
-      let end = slot.endTime.getTime() - startOfDay.getTime();
-      latestTimeInDay = end > latestTimeInDay ? end : latestTimeInDay;
-    });
-    return { earliestTimeInDay, latestTimeInDay };
-  }
-
-  findAvailableDates(availableSlots) {
-    let availableDates = {};
-    availableSlots.forEach(slot => {
-      availableDates[slot.startTime.toDateString()] = true;
-    });
-    availableDates = Object.keys(availableDates).map(date => new Date(date));
-    availableDates.sort();
-    return availableDates;
-  }
-
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.checked });
   }
@@ -70,7 +47,7 @@ class IndividualPreview extends React.Component {
         timeAvailable: timeAvailable.map(slot => {
           const newSlot = {};
           newSlot.__typename = "TimeSlot";
-          Object.assign(newSlot, slot)
+          Object.assign(newSlot, slot);
           return newSlot;
         })
       }
@@ -146,27 +123,24 @@ class IndividualPreview extends React.Component {
       return <img className={appStyles.loader} src={loader} />;
     }
     const { timeAvailable, unavailable, availableSlots, selecting, mouseDown } = this.state;
-    const { earliestTimeInDay, latestTimeInDay } = this.findEarliestLatestTime(availableSlots);
-    const availableDates = this.findAvailableDates(availableSlots);
+    const { minMaxTime, availableDates } = this.props;
     return (
       <div className={styles.container}>
         <div className={styles.title}>My Availability</div>
-        <form onSubmit={this.handleSubmit}>
+        <form className={styles.form} onSubmit={this.handleSubmit}>
           <div
             className={styles.timeSelection}
             style={unavailable ? { display: "none" } : {}}
           >
             <TimeAxis
-              earliestTimeInDay={earliestTimeInDay}
-              latestTimeInDay={latestTimeInDay}
+              minMaxTime={minMaxTime}
               numberOfDays={availableDates.length}
             />
             <div className={styles.timeSlotsContainer} onMouseLeave={this.turnOffSelection}>
               {availableDates.map((date) => {
                 return (
                   <SelectableTimeSlot
-                    earliestTimeInDay={earliestTimeInDay}
-                    latestTimeInDay={latestTimeInDay}
+                    minMaxTime={minMaxTime}
                     date={date}
                     key={date}
                     selecting={selecting}
@@ -197,7 +171,9 @@ class IndividualPreview extends React.Component {
     );
   }
 }
-export default graphql(updateMyParticipation)
-  (graphql(myParticipation, {
+export default compose(
+  graphql(updateMyParticipation),
+  graphql(myParticipation, {
     options: (props) => ({ variables: { eventId: props.eventId } })
-  })(IndividualPreview));
+  })
+)(IndividualPreview);

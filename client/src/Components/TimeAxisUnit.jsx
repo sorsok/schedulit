@@ -1,8 +1,6 @@
 import React from 'react';
 import styles from '../styles/TimeAxisUnit.css';
 
-const SLOT_WIDTH = 6;
-
 class TimeAxisUnit extends React.Component {
 	constructor(props) {
 		super(props);
@@ -27,9 +25,6 @@ class TimeAxisUnit extends React.Component {
 				<div className={styles.labelContainer}>
 					<div className={styles.label}>{this.displayLabel()}</div>
 				</div>
-				{/* <div className={styles.lineContainer}>
-					<div className={styles.line} style={{ width: `${this.props.numberOfDays * SLOT_WIDTH}em` }}></div>
-				</div> */}
 			</div>
 		);
 	}

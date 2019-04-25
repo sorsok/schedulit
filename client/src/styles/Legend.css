@@ -1,64 +1,49 @@
-.container{
+.container {
 	padding: 1em;
 	display: flex;
 	justify-content: center;
 }
 
-.legendItem{
+.legendItem {
 	justify-content: center;
 	display: flex;
 	flex-direction: column;
 	padding: 1em;
 }
 
-.username{
+.username {
 	font-size: 100%;
 }
 
-.selected0{
-  border-color: #30cfd0;
+.participantColor {
 	width: 100%;
 	border-top-width: 0.5em;
 }
 
-.selected1{
-  border-color: #009efd;
-	border-top-width: 0.5em;
-  width: 100%;
-
+.userSelected {
+	border-color: #30cfd0;
 }
 
-.selected2{
-  border-color: #96fbc4;
-	border-top-width: 0.5em;
-  width: 100%;
-
+.selected0 {
+	border-color: #009efd;
 }
 
-.selected3{
-  border-color: chocolate;
-	border-top-width: 0.5em;
-  width: 100%;
-
+.selected1 {
+	border-color: #96fbc4;
 }
 
-.selected4{
-  border-color: darkgreen;
-	border-top-width: 0.5em;
-  width: 100%;
-
+.selected2 {
+	border-color: chocolate;
 }
 
-.selected5{
-  border-color: blanchedalmond;
-	border-top-width: 0.5em;
-  width: 100%;
-
+.selected3 {
+	border-color: darkgreen;
 }
 
-.selected6{
-  border-color: darkolivegreen;
-	border-top-width: 0.5em;
-  width: 100%;
+.selected4 {
+	border-color: blanchedalmond;
+}
 
+.selected5 {
+	border-color: darkolivegreen;
 }

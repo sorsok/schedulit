@@ -186,7 +186,7 @@ const MutationType = new GraphQLObjectType({
               { _id: userId },
               { $push: { participations: newParticipation._id } }
             );
-            return newParticipation.save();
+            return await newParticipation.save();
           }
         } else {
           console.log("event does not exist");

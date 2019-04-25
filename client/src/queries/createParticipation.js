@@ -8,6 +8,10 @@ mutation CreateParticipation($eventId: String){
       _id
       title
       description
+      availableSlots{
+        startTime
+        endTime
+      }
     }
   }
 }
