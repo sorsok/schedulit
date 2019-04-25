@@ -17,6 +17,7 @@ class TimeAxis extends React.Component {
 		for (let i = 0; i <= numberOfSlots; i++) {
 			let currentTimeStamp = new Date(stub + this.props.earliestTimeInDay + (i * UNIT_INCREMENTS * 60 * 1000));
 			timeAxisUnits.push(<TimeAxisUnit
+				key={currentTimeStamp}
 				timestamp={currentTimeStamp}
 				numberOfDays={this.props.numberOfDays}
 			// display={i === 0 || i === numberOfSlots}

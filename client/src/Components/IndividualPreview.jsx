@@ -56,14 +56,28 @@ class IndividualPreview extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const { unavailable, timeAvailable } = this.state;
-    const newParticipation = {
-      _id: this.props.participationId,
+    const participation = {
+      eventId: this.props.eventId,
       unavailable,
       timeAvailable
     };
+
+    const optimisticResponse = {
+      updateMyParticipation: {
+        _id: this.props.participationId,
+        __typename: "Participation",
+        unavailable,
+        timeAvailable: timeAvailable.map(slot => {
+          const newSlot = {};
+          newSlot.__typename = "TimeSlot";
+          Object.assign(newSlot, slot)
+          return newSlot;
+        })
+      }
+    };
     this.props.mutate({
-      variables: { participation: newParticipation },
-      optimisticResponse: newParticipation
+      variables: { participation },
+      optimisticResponse
     });
   }
 

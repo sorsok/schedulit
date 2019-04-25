@@ -163,7 +163,8 @@ const MutationType = new GraphQLObjectType({
         const { eventId } = participation;
         return Participation.findOneAndUpdate(
           { userId, eventId },
-          participation
+          participation,
+          { new: true }
         );
       }
     },
