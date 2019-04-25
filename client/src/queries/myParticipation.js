@@ -5,6 +5,7 @@ query MyParticipation($eventId: String){
   myParticipation(eventId:$eventId){
     _id
     user{
+      _id
       given_name
     }
     event{

@@ -95,6 +95,7 @@ class IndividualPreview extends React.Component {
     if (prevProps.data.loading && !this.props.data.loading) {
       //just received data from server
       //initialize state
+      console.log(this.props.data);
       const { timeAvailable, unavailable } = this.props.data.myParticipation;
       const { availableSlots } = this.props.data.myParticipation.event;
       const timeAvailableParsed = timeAvailable.map(this.parseTimeSlot);
