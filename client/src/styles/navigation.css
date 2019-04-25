@@ -1,5 +1,5 @@
 .navigation {
-  display: flex;
+	display: flex;
 	justify-content: space-between;
 	background-image: linear-gradient(to bottom, #43e97b 0%, #43e97bb8 100%);
 	padding: 0.7em 20em 0.7em 20em;
@@ -7,27 +7,28 @@
 }
 
 .schedulit {
-  color: #fff;
-  font-size: 200%;
+	color: #fff;
+	font-size: 200%;
 	font-weight: 700;
 	height: 100%;
 	display: flex;
 	align-items: center;
+	text-decoration: none;
 }
 
-.tabs{
+.tabs {
 	display: flex;
-
 }
 
 .clickables {
-  color: #fff;
-	font-size: 125%; 
+	color: #fff;
+	font-size: 125%;
 	cursor: pointer;
 	height: 100%;
 	width: 300px;
 	padding: 0em 2em;
 	text-align: center;
+	text-decoration: none;
 }
 
 .clickables:hover {

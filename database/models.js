@@ -3,35 +3,32 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 let timeSlotSchema = mongoose.Schema({
   startTime: Date,
   endTime: Date,
-  preferenceLevel: { type: Number, default: 1 },
 });
 
 let userSchema = mongoose.Schema({
-  id: { type: String, unique: true },
-  googleProfile: {
-    type: Map,
-    of: String
-  },
-  eventsCreated: { type: [ObjectId], default: [] },
-  eventsJoined: { type: [ObjectId], default: [] }
+  sub: String,
+  name: String,
+  given_name: String,
+  family_name: String,
+  profile: String,
+  picture: String,
+  locale: String,
+  participations: { type: [{ type: ObjectId, ref: 'Participation' }], default: [] },
 });
 
 let participationSchema = mongoose.Schema({
-  id: { type: ObjectId, unique: true, auto: true },
-  userId: String,
-  eventId: ObjectId,
+  userId: { type: ObjectId, ref: 'User' },
+  eventId: { type: ObjectId, ref: 'Event' },
   unavailable: { type: Boolean, default: false },
-  timeAvailable: [timeSlotSchema],
+  timeAvailable: { type: [timeSlotSchema], default: [] },
 });
 
 let eventSchema = mongoose.Schema({
-  id: { type: ObjectId, unique: true, auto: true },
-  creatorId: String,
+  creatorId: { type: ObjectId, ref: 'User' },
   title: String,
   description: String,
   availableSlots: [timeSlotSchema],
-  participations: { type: [ObjectId], default: [] },
-  participants: [String]
+  participations: { type: [{ type: ObjectId, ref: 'Participation' }], default: [] },
 });
 
 

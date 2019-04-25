@@ -4,14 +4,28 @@ import styles from '../styles/SelectableTimeUnit.css';
 class SelectableTimeUnit extends React.Component {
   constructor(props) {
     super(props);
+    this.getClassName = this.getClassName.bind(this);
   }
+
+  getClassName() {
+    let className = styles.unit + ' ';
+    if (!this.props.selectable) {
+      className += styles.unselectable;
+    } else if (this.props.selected) {
+      className += styles.selected
+    } else {
+      className += styles.unselected;
+    }
+    return className;
+  }
+
   render() {
     return (
       <div
-        onMouseDown={() => this.props.handleMouseDown(this.props.slotStartTime, this.props.selected)}
-        onMouseUp={this.props.handleMouseUp}
-        onMouseEnter={() => this.props.handleMouseEnter(this.props.slotStartTime, this.props.selected)}
-        className={`${this.props.selected ? styles.selected : ''} ${this.props.selected === null ? styles.unselectable : styles.selectable}`} >
+        onMouseDown={() => this.props.handleMouseDown(this.props.timeStamp, this.props.selected, this.props.selectable)}
+        onMouseUp={() => this.props.handleMouseUp(this.props.timeStamp, this.props.selected, this.props.selectable)}
+        onMouseEnter={() => this.props.handleMouseEnter(this.props.timeStamp, this.props.selected, this.props.selectable)}
+        className={this.getClassName()} >
       </ div>
     )
   }

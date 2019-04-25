@@ -12,10 +12,10 @@ module.exports.ensureAuthenticated = (req, res, next) => {
 module.exports.getPassport = () => {
   const passport = require('passport');
   passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, user._id);
   });
-  passport.deserializeUser((id, done) => {
-    User.findOne({ id }).then(user => done(null, user));
+  passport.deserializeUser((_id, done) => {
+    User.findOne({ _id }).then(user => done(null, user));
   });
   passport.use(
     new GoogleStrategy(
@@ -26,8 +26,8 @@ module.exports.getPassport = () => {
       },
       (token, refreshToken, profile, done) => {
         User.findOneAndUpdate(
-          { id: profile.id },
-          { id: profile.id, googleProfile: profile._json },
+          { sub: profile.id },
+          profile._json,
           { upsert: true, new: true }
         ).then(userDocument => {
           userDocument.token = token;

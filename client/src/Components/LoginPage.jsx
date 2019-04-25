@@ -1,9 +1,33 @@
-import React, { Component } from "react";
-import styles from "../styles/login.css";
+import React from "react";
 
-class LoginPage extends Component {
+import styles from "../styles/Login.css";
+
+import signinNormal from "../assets/signinNormal.png";
+import signinFocus from "../assets/signinNormal.png";
+import signinPressed from "../assets/signinNormal.png";
+
+class LoginPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      hover: false,
+      pressed: false
+    }
+    this.renderSigninImage = this.renderSigninImage.bind(this);
+  }
+
+  onClick() {
+    window.open('/auth/google', 'Login Page', 'width=700, height=700');
+  }
+
+  renderSigninImage() {
+    if (this.state.pressed) {
+      return <img src={signinPressed} />
+    }
+    if (this.state.hover) {
+      return <img src={signinFocus} />
+    }
+    return <img src={signinNormal} />
   }
 
   render() {
@@ -17,9 +41,13 @@ class LoginPage extends Component {
           <div className={styles.loginCenter}>
             <button
               className={styles.button}
-              onClick={this.props.openLoginPopup}
+              onClick={this.onClick}
+              onMouseDown={() => this.setState({ pressed: true })}
+              onMouseUp={() => this.setState({ pressed: false })}
+              onMouseEnter={() => this.setState({ hover: true })}
+              onMouseLeave={() => this.setState({ hover: false })}
             >
-              <img src ="GoogleButton.png" width="240" height="50"></img>
+              {this.renderSigninImage()}
             </button>
           </div>
         </div>

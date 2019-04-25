@@ -3,6 +3,7 @@ const path = require('path');
 const parser = require('body-parser');
 const morgan = require('morgan');
 const http = require('http');
+const expressGraphQL = require('express-graphql');
 
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
@@ -10,6 +11,7 @@ const cookieSession = require('cookie-session');
 const { initializeDB } = require('../database/index');
 const { initializeSockets } = require('./sockets');
 const { mainRouter, passport } = require('./routes');
+const { schema } = require('../graphQL/schema');
 
 const app = express();
 const httpServer = http.Server(app);
@@ -30,6 +32,10 @@ module.exports.initializeApp = async () => {
   app.use(mainRouter);
   app.use(express.static(path.resolve(__dirname, '../client/dist')));
   initializeSockets(httpServer);
+  app.use('/graphql', expressGraphQL({
+    schema,
+    graphiql: true,
+  }));
 
 };
 

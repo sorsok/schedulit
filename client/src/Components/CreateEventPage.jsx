@@ -1,8 +1,14 @@
 import React, { Component } from "react";
-import axios from "axios";
+import { graphql } from 'react-apollo';
+import { Link } from 'react-router-dom';
 
+import Navigation from './Navigation';
 import DayPicker from "./DayPicker";
 import ChooseHours from "./ChooseHours";
+import createEvent from '../queries/createEvent';
+import userEvents from '../queries/userEvents';
+
+import appStyles from '../styles/App.css';
 import styles from "../styles/CreateEventPage.css";
 
 class CreateEventPage extends Component {
@@ -17,6 +23,13 @@ class CreateEventPage extends Component {
       readyForSubmit: false
     };
     this.state.setOfDate = this.createSetOfDay();
+    this.addTimesToSet = this.addTimesToSet.bind(this);
+    this.nextMonth = this.nextMonth.bind(this);
+    this.prevMonth = this.prevMonth.bind(this);
+    this.addTimesToSet = this.addTimesToSet.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.addDayToSet = this.addDayToSet.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   addTimesToSet(times) {
@@ -151,7 +164,6 @@ class CreateEventPage extends Component {
     newEvent.title = this.state.title;
     newEvent.description = this.state.description;
     newEvent.participants = [];
-    newEvent.allowedPreferences = ["activity", "food"];
     newEvent.availableSlots = [];
     for (let day in this.state.setOfDate) {
       let set = this.state.setOfDate[day];
@@ -169,9 +181,11 @@ class CreateEventPage extends Component {
         newEvent.availableSlots.push(timeSlot);
       }
     }
-    axios.post("/api/event", newEvent).then(({ data }) => {
-      this.setState({ eventId: data.id });
-    });
+    this.props.mutate({
+      variables: { event: newEvent },
+      refetchQueries: [{ query: userEvents }]
+    })
+      .then(({ data }) => this.setState({ eventId: data.createEvent._id }));
   }
   render() {
     if (this.state.eventId) {
@@ -184,50 +198,50 @@ class CreateEventPage extends Component {
             fontWeight: '600',
             borderRadius: '2em',
           }}>
-
             <div style={{ padding: '1em' }}>
               {`Share the following link: `}
             </div>
-            <a style={{ padding: '1em' }} href={"/join/" + this.state.eventId}>
-              {`${document.URL}join/${this.state.eventId} `}
-            </a>
-
-
+            <Link style={{ padding: '1em' }} to={`/events/${this.state.eventId}`}>
+              {`${window.location.origin}/events/${this.state.eventId}`}
+            </Link>
           </div>
-        </div>
+        </div >
       );
     }
 
     return (
-      <div className={styles.createPage}>
-        <div className={styles.eventInvitation}>
-          {this.instructionMessage()}
-        </div>
-        <div className={styles.createContainer}>
-          <div className={styles.detailsContainer}>
-            <div className={styles.inputFormContainer}>
-              <form onSubmit={this.handleSubmit}>
-                <label className={styles.eventForm}>
-                  <input
-                    name="title"
-                    type="text"
-                    placeholder="Event Title"
-                    onChange={this.handleChange}
-                    className={styles.input}
-                  />
-                  <input
-                    name="description"
-                    type="text"
-                    placeholder="Event Description"
-                    onChange={this.handleChange}
-                    className={styles.input}
-                  />
-                </label>
-                <div className={styles.hoursContainer}>{this.showHours()}</div>
-                {this.isReadyForSubmit()}
-              </form>
+      <div className={appStyles.masterContainer}>
+        <Navigation />
+        <div className={styles.createPage}>
+          <div className={styles.eventInvitation}>
+            {this.instructionMessage()}
+          </div>
+          <div className={styles.createContainer}>
+            <div className={styles.detailsContainer}>
+              <div className={styles.inputFormContainer}>
+                <form onSubmit={this.handleSubmit}>
+                  <label className={styles.eventForm}>
+                    <input
+                      name="title"
+                      type="text"
+                      placeholder="Event Title"
+                      onChange={this.handleChange}
+                      className={styles.input}
+                    />
+                    <input
+                      name="description"
+                      type="text"
+                      placeholder="Event Description"
+                      onChange={this.handleChange}
+                      className={styles.input}
+                    />
+                  </label>
+                  <div className={styles.hoursContainer}>{this.showHours()}</div>
+                  {this.isReadyForSubmit()}
+                </form>
+              </div>
+              {this.showCalendar()}
             </div>
-            {this.showCalendar()}
           </div>
         </div>
       </div>
@@ -235,4 +249,4 @@ class CreateEventPage extends Component {
   }
 }
 
-export default CreateEventPage;
+export default graphql(createEvent)(CreateEventPage);

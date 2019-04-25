@@ -1,11 +1,12 @@
 const path = require('path');
-const combineLoaders = require('webpack-combine-loaders');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: path.resolve(__dirname, './client/src/index.tsx'),
+  entry: path.resolve(__dirname, './client/src/index.jsx'),
   output: {
     path: path.resolve(__dirname, './client/dist/'),
     filename: 'bundle.js',
+    publicPath: '/'
   },
   mode: 'development',
   devtool: 'inline-source-map',
@@ -47,6 +48,19 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.tsx', '.ts']
-  }
+  },
+  watchOptions: {
+    poll: true,
+    ignored: /node_modules/
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'client/src/index.html'
+    }),
+    new HtmlWebpackPlugin({
+      template: 'client/src/after-auth.html',
+      filename: 'after-auth.html'
+    })
+  ]
 };
 
