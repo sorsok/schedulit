@@ -1,31 +1,32 @@
-.container{
+.container {
 	display: flex;
 }
 
-.lineContainer{
+.lineContainer {
 	display: flex;
 	align-items: center;
 	width: 0em;
 	overflow: visible;
 }
 
-.label{
+.label {
 	font-size: 70%;
-	padding: 0em 0.5em;
+	padding: 0em 1em;
 }
 
-.labelContainer{
+.labelContainer {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
 	height: 1em;
-	width: 4em;
+	width: 5em;
 	font-size: 100%;
 }
 
-.line{
+.line {
 	height: 1px;
-	border-style: dashed;
+	/* border-style: dashed; */
+	color: white;
 	border-bottom-width: 1px;
 	z-index: 1000;
 	position: absolute;

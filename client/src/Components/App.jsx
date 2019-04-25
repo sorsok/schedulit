@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
 
 
@@ -9,7 +10,14 @@ import EventDetailsPage from './EventDetailsPage';
 import UserEventsPage from './UserEventsPage';
 import CreateEventPage from './CreateEventPage';
 
-const client = new ApolloClient({ uri: "http://localhost:3000/graphql" });
+const cache = new InMemoryCache({
+  dataIdFromObject: o => o._id
+});
+
+const client = new ApolloClient({
+  uri: "http://localhost:3000/graphql",
+  cache
+});
 
 
 class App extends React.Component {

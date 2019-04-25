@@ -11,7 +11,6 @@ class SelectableTimeSlot extends React.Component {
     super(props);
     this.state = {
       startTime: null,
-      mouseDown: false,
     }
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
@@ -22,24 +21,25 @@ class SelectableTimeSlot extends React.Component {
     this.timestampLiesInSlot = this.timestampLiesInSlot.bind(this);
   }
 
-  handleMouseDown(timestamp, selected) {
-    if (selected !== null) {
-      this.props.updateTimeSlotStatus(timestamp, selected ? false : true);
-      this.setState({
+  handleMouseDown(timestamp, selected, selectable) {
+    if (selectable) {
+      const selecting = this.props.toggleTimeAvailable(timestamp);
+      this.props.updateState({
         mouseDown: true,
-        startTimestamp: timestamp
+        selecting
       });
     }
   }
 
-  handleMouseEnter(timestamp, selected) {
-    if (this.state.mouseDown) {
-      this.props.updateTimeSlotStatus(timestamp, selected ? false : true);
+  handleMouseEnter(timestamp, selected, selectable) {
+    const { mouseDown, selecting } = this.props;
+    if (mouseDown && selectable && selecting != selected) {
+      this.props.toggleTimeAvailable(timestamp);
     }
   }
 
-  handleMouseUp(e) {
-    this.setState({ mouseDown: false });
+  handleMouseUp(timestamp, selected, selectable) {
+    this.props.updateState({ mouseDown: false });
   }
 
   createTimeStamps() {

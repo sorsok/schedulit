@@ -16,34 +16,22 @@ class EventDetailsPage extends React.Component {
     this.state = {};
     this.props.mutate({ variables: { eventId: props.match.params.id } })
       .then(({ data }) => {
-        console.log(data);
-        this.setState(data.createParticipation.event);
+        const newState = {
+          eventId: data.createParticipation.event._id,
+          title: data.createParticipation.event.title,
+          description: data.createParticipation.event.description,
+          participationId: data.createParticipation._id
+
+        }
+        this.setState(newState);
       });
     this.renderEventDetails = this.renderEventDetails.bind(this);
   }
 
-  findEarliestMinutesInDay(slots) {
-    let earliestMinutesInDay = 24 * 60;
-    slots.forEach(slot => {
-      let start = slot.startTime.getHours() * 60 + slot.startTime.getMinutes();
-      if (start < earliestMinutesInDay) earliestMinutesInDay = start;
-    });
-    return earliestMinutesInDay;
-  }
-
-  findLatestMinutesInDay(slots) {
-    let latestMinutesInDay = 0;
-    slots.forEach(slot => {
-      let end = slot.endTime.getHours() * 60 + slot.endTime.getMinutes();
-      if (end > latestMinutesInDay) latestMinutesInDay = end;
-    });
-    return latestMinutesInDay;
-  }
-
   renderEventDetails() {
-    const { _id, title, description } = this.state;
+    const { eventId, participationId, title, description } = this.state;
     if (!title) {
-      return <img className={appStyles.loader} src={loader} />;
+      return <div />;
     }
     if (title) {
       return (
@@ -53,8 +41,8 @@ class EventDetailsPage extends React.Component {
             {description}
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <IndividualPreview eventId={_id} />
-            {/* <GroupPreview eventId={_id} /> */}
+            <IndividualPreview eventId={eventId} participationId={participationId} />
+            {/* <GroupPreview eventId={eventId} /> */}
           </div>
         </>
       );

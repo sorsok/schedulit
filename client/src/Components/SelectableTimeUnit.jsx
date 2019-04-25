@@ -8,13 +8,13 @@ class SelectableTimeUnit extends React.Component {
   }
 
   getClassName() {
-    let className = ''
+    let className = styles.unit + ' ';
     if (!this.props.selectable) {
-      className = styles.unselectable;
+      className += styles.unselectable;
     } else if (this.props.selected) {
-      className = styles.selected
+      className += styles.selected
     } else {
-      className = styles.unselected;
+      className += styles.unselected;
     }
     return className;
   }
@@ -22,9 +22,9 @@ class SelectableTimeUnit extends React.Component {
   render() {
     return (
       <div
-        onMouseDown={() => this.props.handleMouseDown(this.props.timeStamp, this.props.selected)}
-        onMouseUp={this.props.handleMouseUp}
-        onMouseEnter={() => this.props.handleMouseEnter(this.props.timeStamp, this.props.selected)}
+        onMouseDown={() => this.props.handleMouseDown(this.props.timeStamp, this.props.selected, this.props.selectable)}
+        onMouseUp={() => this.props.handleMouseUp(this.props.timeStamp, this.props.selected, this.props.selectable)}
+        onMouseEnter={() => this.props.handleMouseEnter(this.props.timeStamp, this.props.selected, this.props.selectable)}
         className={this.getClassName()} >
       </ div>
     )

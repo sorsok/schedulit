@@ -10,7 +10,9 @@ class TimeAxisUnit extends React.Component {
 	}
 
 	displayLabel() {
-		if (this.props.timestamp.getMinutes() === 0 || this.props.display) {
+		if (this.props.timestamp.getMinutes() === 0
+			// || this.props.display
+		) {
 			return (new Intl.DateTimeFormat('en-US', {
 				hour: '2-digit',
 				minute: '2-digit'
@@ -25,9 +27,9 @@ class TimeAxisUnit extends React.Component {
 				<div className={styles.labelContainer}>
 					<div className={styles.label}>{this.displayLabel()}</div>
 				</div>
-				<div className={styles.lineContainer}>
+				{/* <div className={styles.lineContainer}>
 					<div className={styles.line} style={{ width: `${this.props.numberOfDays * SLOT_WIDTH}em` }}></div>
-				</div>
+				</div> */}
 			</div>
 		);
 	}

@@ -1,17 +1,18 @@
-.unselectable {
-	width: 4em;
+.unit {
 	height: 1em;
+	width: 4em;
+	border-width: 1px;
+	border-color: white;
+}
+
+.unselectable {
 	background-color: #ddd;
 }
 
 .unselected {
 	background: #a1c4fdc1;
-	width: 4em;
-	height: 1em;
 }
 
 .selected {
-	width: 4em;
-	height: 1em;
 	background-color: #4facfe;
 }

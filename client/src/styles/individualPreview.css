@@ -1,47 +1,52 @@
 .container {
-	background : #fff;
+	background: #fff;
 	border-radius: 1em;
 	padding: 1em 3em;
 	margin: 3em;
+	user-select: none;
 }
 
-.title{
+.title {
 	padding: 1em;
 	font-weight: 500;
 	font-size: 150%;
 	text-align: center;
 }
 
-.timeSlotsContainer{
+.timeSelection {
 	display: flex;
 	justify-content: flex-start;
 }
 
-.unavailableContainer{
+.timeSlotsContainer {
+	display: flex;
+	justify-content: flex-start;
+}
+
+.unavailableContainer {
 	display: flex;
 	justify-content: center;
 	padding: 1em 0em;
 }
 
-.unavailableMessage{
+.unavailableMessage {
 	display: flex;
 	padding: 0em 1em;
 }
 
-.submit{
+.submit {
 	text-transform: uppercase;
-		font-weight: 400;
-		font-size: 80%;
-    background-color: #27ae54;
-    text-align: center;
-    color: white;
-    padding: 0.5em  1em;
-    border-radius: 0.5em;
-		margin: 2em 1em 0.5em 1em;
-		cursor: pointer;
+	font-weight: 400;
+	font-size: 80%;
+	background-color: #27ae54;
+	text-align: center;
+	color: white;
+	padding: 0.5em 1em;
+	border-radius: 0.5em;
+	cursor: pointer;
 }
 
-.submitContainer{
+.submitContainer {
 	display: flex;
 	justify-content: center;
 }

@@ -10,14 +10,20 @@ import updateMyParticipation from '../queries/updateMyParticipation';
 import loader from '../assets/loader.gif';
 import appStyles from '../styles/App.css';
 
+const UNIT_INCREMENTS = 15;
 
 class IndividualPreview extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      selecting: true,
+      mouseDown: false,
+    }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.updateTimeAvailable = this.updateTimeAvailable.bind(this);
+    this.toggleTimeAvailable = this.toggleTimeAvailable.bind(this);
+    this.turnOffSelection = this.turnOffSelection.bind(this);
+    this.updateState = this.updateState.bind(this);
   }
 
   findEarliestLatestTime(availableSlots) {
@@ -49,33 +55,34 @@ class IndividualPreview extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { eventId } = this.props;
-    let newParticipation = {};
-    newParticipation.unavailable = this.state.unavailable;
-    newParticipation.timeAvailable = [];
-    if (!this.state.unavailable) {
-      for (let timestamp in this.state.allTimeSlotStatuses) {
-        if (this.state.allTimeSlotStatuses[timestamp]) {
-          let timestampObject = new Date(timestamp);
-          let currTimeSlot = {};
-          currTimeSlot.startTime = timestampObject;
-          currTimeSlot.endTime = new Date(
-            timestampObject.getTime() + 15 * 60 * 1000
-          );
-          newParticipation.timeAvailable.push(currTimeSlot);
-        }
-      }
-    }
+    const { unavailable, timeAvailable } = this.state;
+    const newParticipation = {
+      _id: this.props.participationId,
+      unavailable,
+      timeAvailable
+    };
     this.props.mutate({
       variables: { participation: newParticipation },
-      refetchQueries: [{ query: myParticipation, variables: { eventId } }]
+      optimisticResponse: newParticipation
     });
   }
 
-  updateTimeAvailable(timestamp, value) {
+  toggleTimeAvailable(timestamp) {
+    //returns true if toggled on and false if toggled off
+    //assumes timeAvailable is array of 15min slots
     let { timeAvailable } = this.state;
-    timeAvailable[timestamp] = value;
-    this.setState({ timeAvailable });
+    const newTimeAvailable = this.state.timeAvailable.filter(slot => {
+      return !this.timestampLiesInSlot(timestamp, slot);
+    });
+    if (timeAvailable.length == newTimeAvailable.length) {
+      newTimeAvailable.push({
+        startTime: timestamp,
+        endTime: new Date(timestamp.getTime() + UNIT_INCREMENTS * 60 * 1000)
+      });
+    }
+    this.setState({ timeAvailable: newTimeAvailable });
+    return newTimeAvailable.length > timeAvailable.length;
+
   }
 
   timestampLiesInSlot(timestamp, timeSlot) {
@@ -109,11 +116,22 @@ class IndividualPreview extends React.Component {
     }
   }
 
+  turnOffSelection() {
+    this.setState({
+      mouseDown: false,
+      selecting: false
+    });
+  }
+
+  updateState(newState) {
+    this.setState(newState);
+  }
+
   render() {
     if (!this.state.availableSlots) {
       return <img className={appStyles.loader} src={loader} />;
     }
-    const { timeAvailable, unavailable, availableSlots } = this.state;
+    const { timeAvailable, unavailable, availableSlots, selecting, mouseDown } = this.state;
     const { earliestTimeInDay, latestTimeInDay } = this.findEarliestLatestTime(availableSlots);
     const availableDates = this.findAvailableDates(availableSlots);
     return (
@@ -121,7 +139,7 @@ class IndividualPreview extends React.Component {
         <div className={styles.title}>My Availability</div>
         <form onSubmit={this.handleSubmit}>
           <div
-            className={styles.timeSlotsContainer}
+            className={styles.timeSelection}
             style={unavailable ? { display: "none" } : {}}
           >
             <TimeAxis
@@ -129,19 +147,33 @@ class IndividualPreview extends React.Component {
               latestTimeInDay={latestTimeInDay}
               numberOfDays={availableDates.length}
             />
-            {availableDates.map((date) => {
-              return (
-                <SelectableTimeSlot
-                  earliestTimeInDay={earliestTimeInDay}
-                  latestTimeInDay={latestTimeInDay}
-                  date={date}
-                  key={date}
-                  availableSlots={availableSlots}
-                  timeAvailable={timeAvailable}
-                  updateTimeAvailable={this.updateTimeAvailable}
-                />
-              );
-            })}
+            <div className={styles.timeSlotsContainer} onMouseLeave={this.turnOffSelection}>
+              {availableDates.map((date) => {
+                return (
+                  <SelectableTimeSlot
+                    earliestTimeInDay={earliestTimeInDay}
+                    latestTimeInDay={latestTimeInDay}
+                    date={date}
+                    key={date}
+                    selecting={selecting}
+                    mouseDown={mouseDown}
+                    availableSlots={availableSlots}
+                    timeAvailable={timeAvailable}
+                    toggleTimeAvailable={this.toggleTimeAvailable}
+                    updateState={this.updateState}
+                  />
+                );
+              })}
+            </div>
+          </div>
+          <div className={styles.unavailableContainer}>
+            <div className={styles.unavailableMessage}>
+              Unable to Attend
+              </div>
+            <input name="unavailable"
+              type="checkbox"
+              checked={this.state.unavailable}
+              onChange={this.handleChange} />
           </div>
           <div className={styles.submitContainer}>
             <input className={styles.submit} type="submit" name="submit" />
