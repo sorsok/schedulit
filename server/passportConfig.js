@@ -6,6 +6,15 @@ module.exports.ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
+  console.log(req.url);
+  res.cookie('path', req.url);
+  res.redirect('/login');
+};
+
+module.exports.ensureNotAuthenticated = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    return next();
+  }
   res.redirect('/');
 };
 
