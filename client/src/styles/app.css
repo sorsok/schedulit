@@ -9,3 +9,8 @@
 	flex-direction: column;
 	justify-content: flex-start;
 }
+
+.loader {
+	height: 3em;
+	justify-self: center;
+}

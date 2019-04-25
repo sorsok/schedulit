@@ -1,12 +1,13 @@
 .unselectable {
 	width: 4em;
-  height: 1em;
-  background-color: #ddd;
+	height: 1em;
+	background-color: #ddd;
 }
-.selectable {
+
+.unselected {
 	background: #a1c4fdc1;
-  width: 4em;
-  height: 1em;
+	width: 4em;
+	height: 1em;
 }
 
 .selected {

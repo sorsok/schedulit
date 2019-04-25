@@ -1,4 +1,3 @@
-const GraphQLJSON = require('graphql-type-json');
 const { GraphQLDateTime } = require('graphql-iso-date');
 const {
   GraphQLSchema,
@@ -14,8 +13,12 @@ const { User, Participation, Event } = require('../database/models');
 const TimeSlotType = new GraphQLObjectType({
   name: 'TimeSlot',
   fields: {
-    startTime: { type: GraphQLDateTime },
-    endTime: { type: GraphQLDateTime }
+    startTime: {
+      type: GraphQLDateTime,
+    },
+    endTime: {
+      type: GraphQLDateTime,
+    }
   }
 });
 
@@ -55,7 +58,6 @@ const ParticipationType = new GraphQLObjectType({
     event: {
       type: EventType,
       resolve(parentValue, args) {
-        console.log("participation", parentValue);
         return Event.findOne({ _id: parentValue.eventId })
       }
     },
@@ -95,6 +97,28 @@ const RootQueryType = new GraphQLObjectType({
       resolve(parentValue, args, req) {
         return User.findOne({ _id: req.user._id });
       }
+    },
+    myParticipation: {
+      type: ParticipationType,
+      args: {
+        eventId: {
+          type: GraphQLString
+        }
+      },
+      resolve(parentValue, { eventId }, req) {
+        return Participation.findOne({ userId: req.user._id, eventId });
+      }
+    },
+    otherParticipations: {
+      type: new GraphQLList(ParticipationType),
+      args: {
+        eventId: {
+          type: GraphQLString
+        }
+      },
+      resolve(parentValue, { eventId }, req) {
+        return Participation.find({ eventId, userId: { $ne: req.user._id } });
+      }
     }
   }
 });
@@ -129,7 +153,7 @@ const InputEventType = new GraphQLInputObjectType({
 const MutationType = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
-    participate: {
+    updateMyParticipation: {
       type: ParticipationType,
       args: {
         participation: { type: InputParticipationType }
@@ -139,8 +163,34 @@ const MutationType = new GraphQLObjectType({
         const { eventId } = participation;
         return Participation.findOneAndUpdate(
           { userId, eventId },
-          participation,
-          { upsert: true });
+          participation
+        );
+      }
+    },
+    createParticipation: {
+      type: ParticipationType,
+      args: {
+        eventId: { type: GraphQLString }
+      },
+      resolve: async (parentValue, { eventId }, req) => {
+        const userId = req.user._id;
+        const event = await Event.findOne({ _id: eventId });
+        if (event) {
+          const participation = await Participation.findOne({ userId, eventId });
+          if (participation) {
+            return participation
+          } else {
+            const newParticipation = new Participation({ userId, eventId });
+            await User.findOneAndUpdate(
+              { _id: userId },
+              { $push: { participations: newParticipation._id } }
+            );
+            return newParticipation.save();
+          }
+        } else {
+          console.log("event does not exist");
+          return null;
+        }
       }
     },
     createEvent: {

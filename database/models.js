@@ -20,7 +20,7 @@ let participationSchema = mongoose.Schema({
   userId: { type: ObjectId, ref: 'User' },
   eventId: { type: ObjectId, ref: 'Event' },
   unavailable: { type: Boolean, default: false },
-  timeAvailable: [timeSlotSchema],
+  timeAvailable: { type: [timeSlotSchema], default: [] },
 });
 
 let eventSchema = mongoose.Schema({
