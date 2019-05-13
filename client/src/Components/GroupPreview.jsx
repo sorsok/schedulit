@@ -25,7 +25,8 @@ class GroupPreview extends React.Component {
   }
 
   renderGroupAvailability() {
-    if (this.props.myParticipation.loading || this.props.otherParticipations.loading) {
+    console.log(this.props);
+    if (this.props.loading) {
       return (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
           <img className={appStyles.loader} src={loader} />
@@ -38,13 +39,16 @@ class GroupPreview extends React.Component {
       user: myParticipation.myParticipation.user
     }
     const availableSlots = myParticipation.myParticipation.event.availableSlots.map(this.parseTimeSlot);
-    const otherParticipationsParsed = otherParticipations.otherParticipations.map(({ unavailable, timeAvailable, user }) => {
-      return {
-        unavailable,
-        timeAvailable: timeAvailable.map(this.parseTimeSlot),
-        user
-      };
-    });
+    const otherParticipationsParsed = [];
+    if (otherParticipations.otherParticipations) {
+      otherParticipationsParsed = otherParticipations.otherParticipations.map(({ unavailable, timeAvailable, user }) => {
+        return {
+          unavailable,
+          timeAvailable: timeAvailable.map(this.parseTimeSlot),
+          user
+        };
+      });
+    }
     const participations = {
       myParticipation: myParticipationParsed,
       otherParticipations: otherParticipationsParsed

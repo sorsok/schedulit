@@ -1,4 +1,4 @@
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const { User } = require('../database/models');
 
@@ -39,6 +39,7 @@ module.exports.getPassport = () => {
           profile._json,
           { upsert: true, new: true }
         ).then(userDocument => {
+          console.log('token: ', token);
           userDocument.token = token;
           return done(null, userDocument);
         });
