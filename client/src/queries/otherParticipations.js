@@ -4,7 +4,7 @@ export default gql`
 query OtherParticipations($eventId: String){
   otherParticipations(eventId:$eventId){
     _id
-    user{
+    user {
       given_name
     }
     unavailable

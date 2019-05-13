@@ -179,14 +179,18 @@ const MutationType = new GraphQLObjectType({
         if (event) {
           const participation = await Participation.findOne({ userId, eventId });
           if (participation) {
-            return participation
+            return participation;
           } else {
             const newParticipation = new Participation({ userId, eventId });
-            await User.findOneAndUpdate(
+            await Promise.all([User.findOneAndUpdate(
               { _id: userId },
               { $push: { participations: newParticipation._id } }
-            );
-            return await newParticipation.save();
+            ),
+            Event.findOneAndUpdate(
+              { _id: eventId },
+              { $push: { participations: newParticipation._id } }
+            )]);
+            return newParticipation.save();
           }
         } else {
           console.log("event does not exist");
@@ -218,7 +222,7 @@ const MutationType = new GraphQLObjectType({
         const participationId = newParticipation._id;
         newEvent.participations = [participationId];
 
-        //update user and save new documents
+        //add participation to user and save new documents
         return User.findOneAndUpdate(
           { _id: userId },
           { $push: { participations: participationId } }

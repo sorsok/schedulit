@@ -8,7 +8,11 @@ const expressGraphQL = require('express-graphql');
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
 
-const { initializeDB } = require('../database/index');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+
+
+const { initializeDB, mongoose } = require('../database/index');
 const { initializeSockets } = require('./sockets');
 const { mainRouter, passport } = require('./routes');
 const { schema } = require('../graphQL/schema');
@@ -18,11 +22,14 @@ const httpServer = http.Server(app);
 
 module.exports.initializeApp = async () => {
   await initializeDB();
-  app.use(cookieSession({
-    name: 'session',
-    keys: ['thiccmilcc']
-  })
-  );
+  app.use(session({
+    resave: true,
+    saveUninitialized: true,
+    secret: 'schedulit-rules',
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection
+    })
+  }));
   app.use(cookieParser());
   app.use(morgan('dev'));
   app.use(parser.json());

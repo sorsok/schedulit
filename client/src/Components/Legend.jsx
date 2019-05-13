@@ -16,7 +16,7 @@ class Legend extends React.Component {
           <div className={styles.username}>{this.props.participations.myParticipation.user.given_name}</div>
         </div>
         {this.props.participations.otherParticipations.map(({ user }, index) => (
-          <div className={styles.legendItem}>
+          <div className={styles.legendItem} key={index}>
             <div className={styles.participantColor + ' ' + styles['selected' + index]}> </div>
             <div className={styles.username}>{user.given_name}</div>
           </div>

@@ -27,7 +27,7 @@ class EventCard extends React.Component {
   }
 
   render() {
-    const { _id, title, availableSlots, participations, description } = this.props.event;
+    const { _id, title, description, availableSlots, participations } = this.props.event;
     const names = participations.map(({ user }) => user.name);
     return (
       <div className={styles.container}>
@@ -51,10 +51,8 @@ class EventCard extends React.Component {
           </CopyToClipboard>
         </div>
         <div className={styles.duration}>
-          {/* {this.getFormattedDate(availableSlots)} */}
+          {this.getFormattedDate(availableSlots)}
         </div>
-
-        {/* <Participants participants={participants} /> */}
         <div>
           {`Attending: ${names.join(', ')} (${names.length}) `}
         </div>

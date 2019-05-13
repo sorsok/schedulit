@@ -5,6 +5,7 @@ query MyParticipation($eventId: String){
   myParticipation(eventId:$eventId){
     _id
     user{
+      _id
       given_name
     }
     event{
@@ -12,6 +13,13 @@ query MyParticipation($eventId: String){
       availableSlots{
         startTime
         endTime
+      }
+      participations{
+        _id
+        user{
+          _id
+          name
+        }
       }
     }
     unavailable

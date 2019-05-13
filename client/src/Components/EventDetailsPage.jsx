@@ -64,11 +64,14 @@ class EventDetailsPage extends React.Component {
   renderEventDetails() {
     const { eventId, participationId, title, description } = this.state;
     if (!title) {
-      return <div />;
+      return (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <img className={appStyles.loader} src={loader} />
+        </div>
+      );
     }
     const minMaxTime = this.findMinMaxTime();
     const availableDates = this.findAvailableDates();
-
     if (title) {
       return (
         <>

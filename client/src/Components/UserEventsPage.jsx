@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 
 import Navigation from './Navigation';
 import EventCard from './EventCard';
-import query from '../queries/userEvents';
+import userEvents from '../queries/userEvents';
 
 import loader from '../assets/loader.gif';
 import appStyles from '../styles/App.css';
@@ -14,12 +14,21 @@ class UserEventsPage extends React.Component {
     super(props);
   }
 
+  parseTimeSlot(slot) {
+    return {
+      startTime: new Date(slot.startTime),
+      endTime: new Date(slot.endTime)
+    }
+  }
+
   renderEvents() {
     if (this.props.data.loading) {
       return <img className={appStyles.loader} src={loader} />;
     }
     const { participations } = this.props.data.me;
+    console.log(this.props.data.me);
     return participations.map(({ event }, index) => {
+      event.availableSlots = event.availableSlots.map(this.parseTimeSlot)
       return <EventCard event={event} key={index} />;
     });
 
@@ -44,4 +53,4 @@ class UserEventsPage extends React.Component {
 };
 
 
-export default graphql(query)(UserEventsPage);
+export default graphql(userEvents)(UserEventsPage);
