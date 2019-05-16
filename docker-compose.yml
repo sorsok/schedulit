@@ -1,0 +1,9 @@
+version: 3
+services:
+  web-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ".:/usr/app"
+      - "/usr/app/node_modules"
