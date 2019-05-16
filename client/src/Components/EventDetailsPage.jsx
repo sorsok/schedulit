@@ -9,6 +9,7 @@ import createParticipation from '../queries/createParticipation';
 import appStyles from '../styles/App.css';
 import loader from '../assets/loader.gif';
 
+//TODO fix order of dates rendered
 
 class EventDetailsPage extends React.Component {
   constructor(props) {

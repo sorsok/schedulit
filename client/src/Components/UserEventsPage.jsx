@@ -26,7 +26,6 @@ class UserEventsPage extends React.Component {
       return <img className={appStyles.loader} src={loader} />;
     }
     const { participations } = this.props.data.me;
-    console.log(this.props.data.me);
     return participations.map(({ event }, index) => {
       event.availableSlots = event.availableSlots.map(this.parseTimeSlot)
       return <EventCard event={event} key={index} />;

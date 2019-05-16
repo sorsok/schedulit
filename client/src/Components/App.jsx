@@ -14,10 +14,8 @@ const cache = new InMemoryCache({
   dataIdFromObject: o => o._id
 });
 
-const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql",
-  cache
-});
+const uri = window.location.origin + '/graphql';
+const client = new ApolloClient({ uri, cache });
 
 
 class App extends React.Component {

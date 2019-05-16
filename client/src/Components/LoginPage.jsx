@@ -10,7 +10,6 @@ import greenLogo from '../assets/greenLogo.png';
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
-    console.log(Cookies.get());
     this.state = {
       hover: false,
       path: Cookies.get('path')
