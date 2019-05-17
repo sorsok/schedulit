@@ -1,26 +1,27 @@
 const express = require('express');
+const path = require('path');
 const { ensureAuthenticated, ensureNotAuthenticated } = require('./passportConfig');
-const { joinPut, eventPost, eventGet, userGet, participationGet, myUserGet, joinGet, sendIndex } = require('./controllers.js');
-const { passport, authenticateUser, handleCallback, giveUserSessionToken } = require('./passportControllers');
+const { passport, authenticateUser, handleCallback, sendAfterAuthIndex } = require('./passportControllers');
 
-const apiRouter = express.Router();
-apiRouter
-  .get('/user', myUserGet)
-  .get('/user/:id', userGet)
-  .get('/event/:id', eventGet)
-  .post('/event', eventPost)
-  .get('/participation/:id', participationGet)
-  .put('/join/:eventId', joinPut);
+const sendIndex = (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+};
+
+const logout = (req, res) => {
+  req.logout();
+  res.redirect('/login');
+};
+
 
 const mainRouter = express.Router();
-mainRouter.use('/api', ensureAuthenticated, apiRouter);
 mainRouter
-  .get('/join/:eventId', joinGet)
-  .get('/protected', ensureAuthenticated, (req, res) => res.send('access granted. secure stuff happens here'))
   .get('/auth/google', authenticateUser)
-  .get('/auth/google/callback', handleCallback, giveUserSessionToken)
+  .get('/auth/google/callback', handleCallback, sendAfterAuthIndex)
+
+  // nginx should do this
   .get('/', ensureAuthenticated, sendIndex)
   .get('/login', ensureNotAuthenticated, sendIndex)
+  .get('/logout', ensureAuthenticated, logout)
   .get('/events/:id', ensureAuthenticated, sendIndex)
   .get('/events/new', ensureAuthenticated, sendIndex);
 
