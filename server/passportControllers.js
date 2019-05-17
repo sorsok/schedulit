@@ -11,7 +11,7 @@ module.exports = {
     failureRedirect: '/login'
   })
   ,
-  giveUserSessionToken: (req, res) => {
+  sendAfterAuthIndex: (req, res) => {
     res.redirect('/after-auth.html');
   },
   passport: passport
