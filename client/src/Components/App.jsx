@@ -9,6 +9,7 @@ import LoginPage from './LoginPage';
 import EventDetailsPage from './EventDetailsPage';
 import UserEventsPage from './UserEventsPage';
 import CreateEventPage from './CreateEventPage';
+import AuthSuccessful from './AuthSuccessful';
 
 const cache = new InMemoryCache({
   dataIdFromObject: o => o._id
@@ -35,6 +36,7 @@ class App extends React.Component {
             <Route path="/login" component={LoginPage} />
             <Route path="/events/new" exact component={CreateEventPage} />
             <Route path="/events/:id" component={EventDetailsPage} />
+            <Route path="/authSuccessful" component={AuthSuccessful} />
           </Switch>
         </BrowserRouter>
       </ApolloProvider >

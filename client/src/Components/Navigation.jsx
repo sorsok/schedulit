@@ -20,6 +20,7 @@ class Navigation extends React.Component {
 					<Link to={'/'} className={styles.clickables}>My Events</Link>
 					<Link to={'/events/new'} className={styles.clickables}>Create an event!</Link>
 				</div>
+				<a href={'/logout'} className={styles.clickables}>Log Out</a>
 			</div>
 		);
 	}

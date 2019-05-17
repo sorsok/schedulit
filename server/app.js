@@ -6,7 +6,6 @@ const http = require('http');
 const expressGraphQL = require('express-graphql');
 
 const cookieParser = require('cookie-parser');
-const cookieSession = require('cookie-session');
 
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
