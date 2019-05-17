@@ -14,7 +14,7 @@ const MongoStore = require('connect-mongo')(session);
 const { initializeDB, mongoose } = require('../database/index');
 const { initializeSockets } = require('./sockets');
 const { mainRouter, passport } = require('./routes');
-const { schema } = require('../graphQL/schema');
+const { schema } = require('./graphQL/schema');
 
 const app = express();
 const httpServer = http.Server(app);

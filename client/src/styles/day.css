@@ -1,4 +1,4 @@
-.date{
+.date {
   width: 2em;
   height: 2em;
   display: flex;
@@ -15,13 +15,13 @@
   align-items: center;
 }
 
-.set0{
+.set0 {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.set1{
+.set1 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,7 +30,7 @@
   padding: 0.5em;
 }
 
-.set2{
+.set2 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,7 +39,7 @@
   border-radius: 100%;
 }
 
-.set3{
+.set3 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,7 +54,6 @@
   text-align: center;
   color: white;
   cursor: pointer;
-
 }
 
 .currMonth {
@@ -73,7 +72,7 @@
   cursor: pointer;
 }
 
-.past{
+.past {
   color: #ddd;
   font-weight: 400;
 }
