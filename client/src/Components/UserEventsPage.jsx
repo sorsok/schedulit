@@ -22,7 +22,7 @@ class UserEventsPage extends React.Component {
   }
 
   renderEvents() {
-    if (this.props.data.loading) {
+    if (this.props.data.loading || !this.props.data.me) {
       return <img className={appStyles.loader} src={loader} />;
     }
     const { participations } = this.props.data.me;
