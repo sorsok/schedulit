@@ -3,10 +3,6 @@ import styles from '../styles/Day.module.css';
 import classnames from 'classnames';
 
 class Day extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   getClassNames() {
     let classNames = [styles.dayContainer];
     if (this.props.currentMonth === this.props.date.getMonth()) {

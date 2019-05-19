@@ -5,15 +5,11 @@ import styles from "../styles/Navigation.module.css";
 import logo from '../assets/logo.png';
 
 class Navigation extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
 	render() {
 		return (
 			<div className={styles.navigation}>
 				<Link className={styles.schedulit} to={'/'} >
-					<img src={logo} style={{ width: '1.5em', height: '1.5em', padding: '0.3em' }}></img>
+					<img alt="schedulit-logo" src={logo} style={{ width: '1.5em', height: '1.5em', padding: '0.3em' }}></img>
 					<div>Schedulit</div>
 				</Link>
 				<div className={styles.tabs}>

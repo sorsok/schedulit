@@ -15,20 +15,19 @@ class LoginPage extends React.Component {
       path: Cookies.get('path')
     }
     Cookies.remove('path');
-    this.imageSource = this.imageSource.bind(this);
-    window.redirect = this.redirect.bind(this);
+    window.redirect = this.redirect;
   }
 
-  onClick() {
+  onClick = () => {
     window.open('/auth/google', 'Login Page', 'width=700, height=700');
   }
 
-  redirect() {
+  redirect = () => {
     const path = this.state.path ? this.state.path : '/';
     this.props.history.push(path);
   }
 
-  imageSource() {
+  imageSource = () => {
     if (this.state.hover) {
       return signinFocus;
     }
@@ -41,7 +40,7 @@ class LoginPage extends React.Component {
         <div className={styles.container}>
           <div className={styles.inner}>
             <div className={styles.schedulIt} >
-              <img src={greenLogo} style={{ width: '1.5em', height: '1.5em', padding: '0.3em' }}></img>
+              <img alt="schedulit-logo" src={greenLogo} style={{ width: '1.5em', height: '1.5em', padding: '0.3em' }}></img>
               <div>Schedulit</div>
             </div>
             <div className={styles.loginCenter}>
@@ -53,7 +52,7 @@ class LoginPage extends React.Component {
                 onMouseEnter={() => this.setState({ hover: true })}
                 onMouseLeave={() => this.setState({ hover: false })}
               >
-                <img className={styles.googleImage} src={this.imageSource()} />
+                <img alt="google-login" className={styles.googleImage} src={this.imageSource()} />
               </button>
             </div>
           </div>

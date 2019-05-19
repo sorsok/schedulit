@@ -7,10 +7,6 @@ import copy from '../assets/copy.png'
 import styles from "../styles/EventCard.module.css";
 
 class EventCard extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   getFormattedDate(availableSlots) {
     const startDate = availableSlots[0].startTime
     const endDate = availableSlots[availableSlots.length - 1].startTime;
@@ -41,6 +37,7 @@ class EventCard extends React.Component {
           <CopyToClipboard text={`${document.URL}events/${_id}`}>
             <div>
               <img
+                alt="loader"
                 src={copy}
                 className={styles.copyButton}
                 title="Copy to Clipboard"

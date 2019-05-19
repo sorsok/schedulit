@@ -19,19 +19,13 @@ class IndividualPreview extends React.Component {
       selecting: true,
       mouseDown: false,
     }
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.toggleTimeAvailable = this.toggleTimeAvailable.bind(this);
-    this.turnOffSelection = this.turnOffSelection.bind(this);
-    this.updateState = this.updateState.bind(this);
-    this.renderIndividualAvailability = this.renderIndividualAvailability.bind(this);
   }
 
-  handleChange(e) {
+  handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.checked });
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
     const { unavailable, timeAvailable } = this.state;
     const participation = {
@@ -59,14 +53,14 @@ class IndividualPreview extends React.Component {
     });
   }
 
-  toggleTimeAvailable(timestamp) {
+  toggleTimeAvailable = (timestamp) => {
     //returns true if toggled on and false if toggled off
     //assumes timeAvailable is array of 15min slots
     let { timeAvailable } = this.state;
     const newTimeAvailable = this.state.timeAvailable.filter(slot => {
       return !this.timestampLiesInSlot(timestamp, slot);
     });
-    if (timeAvailable.length == newTimeAvailable.length) {
+    if (timeAvailable.length === newTimeAvailable.length) {
       newTimeAvailable.push({
         startTime: timestamp,
         endTime: new Date(timestamp.getTime() + UNIT_INCREMENTS * 60 * 1000)
@@ -77,7 +71,7 @@ class IndividualPreview extends React.Component {
 
   }
 
-  timestampLiesInSlot(timestamp, timeSlot) {
+  timestampLiesInSlot = (timestamp, timeSlot) => {
     timestamp = new Date(timestamp);
     return (
       timestamp.getTime() >= timeSlot.startTime.getTime() &&
@@ -85,14 +79,14 @@ class IndividualPreview extends React.Component {
     );
   }
 
-  parseTimeSlot(slot) {
+  parseTimeSlot = (slot) => {
     return {
       startTime: new Date(slot.startTime),
       endTime: new Date(slot.endTime)
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate = (prevProps) => {
     if (prevProps.data.loading && !this.props.data.loading) {
       //just received data from server
       //initialize state
@@ -109,22 +103,22 @@ class IndividualPreview extends React.Component {
     }
   }
 
-  turnOffSelection() {
+  turnOffSelection = () => {
     this.setState({
       mouseDown: false,
       selecting: false
     });
   }
 
-  updateState(newState) {
+  updateState = (newState) => {
     this.setState(newState);
   }
 
-  renderIndividualAvailability() {
+  renderIndividualAvailability = () => {
     if (!this.state.availableSlots) {
       return (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <img className={appStyles.loader} src={loader} />
+          <img alt="loader" className={appStyles.loader} src={loader} />
         </div>
       );
     }

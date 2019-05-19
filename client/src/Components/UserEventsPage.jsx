@@ -10,20 +10,16 @@ import appStyles from '../styles/App.module.css';
 import styles from '../styles/UserEventsPage.module.css';
 
 class UserEventsPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  parseTimeSlot(slot) {
+  parseTimeSlot = (slot) => {
     return {
       startTime: new Date(slot.startTime),
       endTime: new Date(slot.endTime)
     }
   }
 
-  renderEvents() {
+  renderEvents = () => {
     if (this.props.data.loading || !this.props.data.me) {
-      return <img className={appStyles.loader} src={loader} />;
+      return <img alt="loader" className={appStyles.loader} src={loader} />;
     }
     const { participations } = this.props.data.me;
     return participations.map(({ event }, index) => {

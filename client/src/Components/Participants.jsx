@@ -8,7 +8,7 @@ class Participants extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.fetchParticipants(this.props.participants);
   }
 

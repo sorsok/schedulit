@@ -5,12 +5,7 @@ import Day from './Day.jsx';
 import YearMonthHeader from './YearMonthHeader';
 
 class DayPicker extends React.Component {
-  constructor(props) {
-    super(props);
-    this.renderMonth = this.renderMonth.bind(this);
-  }
-
-  renderMonth() {
+  renderMonth = () => {
     let weekComponents = [];
     let { currentYear, currentMonth } = this.props;
     let daysInLastMonth = (new Date(currentYear, currentMonth, 0)).getDate();

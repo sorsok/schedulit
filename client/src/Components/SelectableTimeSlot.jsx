@@ -12,16 +12,9 @@ class SelectableTimeSlot extends React.Component {
     this.state = {
       startTime: null,
     }
-    this.handleMouseDown = this.handleMouseDown.bind(this);
-    this.handleMouseUp = this.handleMouseUp.bind(this);
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
-    this.createTimeStamps = this.createTimeStamps.bind(this);
-    this.isTimeStampSelected = this.isTimeStampSelected.bind(this);
-    this.isTimeStampSelectable = this.isTimeStampSelectable.bind(this);
-    this.timestampLiesInSlot = this.timestampLiesInSlot.bind(this);
   }
 
-  handleMouseDown(timestamp, selected, selectable) {
+  handleMouseDown = (timestamp, selected, selectable) => {
     if (selectable) {
       const selecting = this.props.toggleTimeAvailable(timestamp);
       this.props.updateState({
@@ -31,18 +24,18 @@ class SelectableTimeSlot extends React.Component {
     }
   }
 
-  handleMouseEnter(timestamp, selected, selectable) {
+  handleMouseEnter = (timestamp, selected, selectable) => {
     const { mouseDown, selecting } = this.props;
-    if (mouseDown && selectable && selecting != selected) {
+    if (mouseDown && selectable && selecting !== selected) {
       this.props.toggleTimeAvailable(timestamp);
     }
   }
 
-  handleMouseUp(timestamp, selected, selectable) {
+  handleMouseUp = (timestamp, selected, selectable) => {
     this.props.updateState({ mouseDown: false });
   }
 
-  createTimeStamps() {
+  createTimeStamps = () => {
     const numberOfTimeStamps = (this.props.minMaxTime.latestTimeInDay - this.props.minMaxTime.earliestTimeInDay) / (UNIT_INCREMENTS * 60 * 1000);
     const timeStamps = [];
     for (let i = 0; i < numberOfTimeStamps; i++) {
@@ -52,19 +45,19 @@ class SelectableTimeSlot extends React.Component {
     return timeStamps;
   }
 
-  isTimeStampSelectable(timeStamp) {
+  isTimeStampSelectable = (timeStamp) => {
     return this.props.availableSlots.some(slot => {
       return this.timestampLiesInSlot(timeStamp, slot);
     })
   }
 
-  isTimeStampSelected(timeStamp) {
+  isTimeStampSelected = (timeStamp) => {
     return this.props.timeAvailable.some(slot => {
       return this.timestampLiesInSlot(timeStamp, slot);
     })
   }
 
-  timestampLiesInSlot(timestamp, timeSlot) {
+  timestampLiesInSlot = (timestamp, timeSlot) => {
     timestamp = new Date(timestamp);
     return (
       timestamp.getTime() >= timeSlot.startTime.getTime() &&

@@ -5,12 +5,7 @@ import TimeAxisUnit from './TimeAxisUnit';
 const UNIT_INCREMENTS = 15;
 
 class TimeAxis extends React.Component {
-	constructor(props) {
-		super(props);
-		this.getTimeAxisUnits = this.getTimeAxisUnits.bind(this);
-	}
-
-	getTimeAxisUnits() {
+	getTimeAxisUnits = () => {
 		let numberOfSlots = (this.props.minMaxTime.latestTimeInDay - this.props.minMaxTime.earliestTimeInDay) / (UNIT_INCREMENTS * 60 * 1000);
 		let stub = new Date(0, 0, 0).getTime();
 		let timeAxisUnits = [];
@@ -24,7 +19,6 @@ class TimeAxis extends React.Component {
 		}
 		return timeAxisUnits;
 	}
-
 
 	render() {
 		return (
