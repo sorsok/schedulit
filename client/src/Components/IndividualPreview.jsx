@@ -2,13 +2,13 @@ import React from "react";
 import { graphql, compose } from 'react-apollo';
 
 import SelectableTimeSlot from "./SelectableTimeSlot";
-import styles from "../styles/IndividualPreview.css";
+import styles from "../styles/IndividualPreview.module.css";
 import TimeAxis from "./TimeAxis";
 
 import myParticipation from '../queries/myParticipation';
 import updateMyParticipation from '../queries/updateMyParticipation';
 import loader from '../assets/loader.gif';
-import appStyles from '../styles/App.css';
+import appStyles from '../styles/App.module.css';
 
 const UNIT_INCREMENTS = 15;
 

@@ -1,5 +1,5 @@
-import React from 'schedulit/src/node_modules/react';
-import ReactDOM from 'schedulit/src/node_modules/react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import App from './App';
 
 it('renders without crashing', () => {

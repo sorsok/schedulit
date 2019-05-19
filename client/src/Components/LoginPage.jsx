@@ -1,7 +1,7 @@
 import React from "react";
 import Cookies from "js-cookie";
-import appStyles from '../styles/App.css';
-import styles from "../styles/Login.css";
+import appStyles from '../styles/App.module.css';
+import styles from "../styles/Login.module.css";
 
 import signinNormal from "../assets/signinNormal.png";
 import signinFocus from "../assets/signinFocus.png";

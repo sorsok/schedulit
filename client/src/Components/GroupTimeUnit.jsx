@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/GroupTimeUnit.css';
+import styles from '../styles/GroupTimeUnit.module.css';
 
 
 class GroupTimeUnit extends React.Component {

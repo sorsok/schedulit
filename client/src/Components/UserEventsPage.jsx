@@ -6,8 +6,8 @@ import EventCard from './EventCard';
 import userEvents from '../queries/userEvents';
 
 import loader from '../assets/loader.gif';
-import appStyles from '../styles/App.css';
-import styles from '../styles/UserEventsPage.css';
+import appStyles from '../styles/App.module.css';
+import styles from '../styles/UserEventsPage.module.css';
 
 class UserEventsPage extends React.Component {
   constructor(props) {

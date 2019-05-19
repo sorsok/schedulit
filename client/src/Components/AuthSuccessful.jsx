@@ -5,6 +5,7 @@ class AuthSuccessful extends Component {
     super(props);
   }
   render() {
+    window.opener.redirect();
     window.close();
     return (
       <div>

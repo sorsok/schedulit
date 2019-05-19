@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import styles from '../styles/YearMonthHeader.css';
+import styles from '../styles/YearMonthHeader.module.css';
 
 export default (props) => {
   const MonthNames = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];

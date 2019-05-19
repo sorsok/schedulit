@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/TimeAxisUnit.css';
+import styles from '../styles/TimeAxisUnit.module.css';
 
 class TimeAxisUnit extends React.Component {
 	constructor(props) {

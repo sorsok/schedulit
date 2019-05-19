@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/TimeAxis.css';
+import styles from '../styles/TimeAxis.module.css';
 import TimeAxisUnit from './TimeAxisUnit';
 
 const UNIT_INCREMENTS = 15;

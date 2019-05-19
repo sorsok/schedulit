@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/DayPicker.css';
+import styles from '../styles/DayPicker.module.css';
 import Day from './Day.jsx';
 
 import YearMonthHeader from './YearMonthHeader';

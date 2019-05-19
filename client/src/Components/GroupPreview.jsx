@@ -5,10 +5,10 @@ import Legend from './Legend'
 import GroupTimeSlot from "./GroupTimeSlot";
 import TimeAxis from "./TimeAxis";
 
-import styles from "../styles/GroupPreview.css";
+import styles from "../styles/GroupPreview.module.css";
 import myParticipation from "../queries/myParticipation";
 import otherParticipations from '../queries/otherParticipations';
-import appStyles from '../styles/App.css';
+import appStyles from '../styles/App.module.css';
 import loader from '../assets/loader.gif';
 
 class GroupPreview extends React.Component {

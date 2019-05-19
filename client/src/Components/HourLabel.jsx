@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/HourDescription.css';
+import styles from '../styles/HourDescription.module.css';
 
 class HourLabel extends React.Component {
   constructor(props) {
@@ -26,8 +26,8 @@ class HourLabel extends React.Component {
       let currentTimeStamp = new Date(
         stub + (this.props.earliestMinutesInDay + i * 15) * 60 * 1000
       );
-			if (currentTimeStamp >= this.props.timeSlot.startTime 
-				&& currentTimeStamp < this.props.timeSlot.endTime) {
+      if (currentTimeStamp >= this.props.timeSlot.startTime
+        && currentTimeStamp < this.props.timeSlot.endTime) {
         slotStatus[
           currentTimeStamp
         ] = this.props.eventData.participations[0].timeAvailable.some(
@@ -40,7 +40,7 @@ class HourLabel extends React.Component {
     return slotStatus;
   }
 
-	render() {
+  render() {
     return (
       <div>
         {Object.keys(this.state.slotStatus).map((timeStamp, index) => {
@@ -48,12 +48,12 @@ class HourLabel extends React.Component {
           if (timeStamp.getMinutes() === 0 || index === 0) {
             return (
               <div className={styles.showHour}>
-								<div className={styles.internalPadding}>
-                {new Intl.DateTimeFormat('en-US', {
-                  hour: '2-digit',
-                  minute: '2-digit'
-								}).format(timeStamp) }
-								</div>
+                <div className={styles.internalPadding}>
+                  {new Intl.DateTimeFormat('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  }).format(timeStamp)}
+                </div>
               </div>
             );
           } else if (Object.keys(this.state.slotStatus).length - 1 === index) {
@@ -61,13 +61,13 @@ class HourLabel extends React.Component {
               <div>
                 <div className={styles.hideHour} />
                 <div className={styles.showLast}>
-									<div className={styles.internalPadding}>
-                  {new Intl.DateTimeFormat('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  }).format(new Date(timeStamp.getTime() + 15 * 60000))}
+                  <div className={styles.internalPadding}>
+                    {new Intl.DateTimeFormat('en-US', {
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    }).format(new Date(timeStamp.getTime() + 15 * 60000))}
+                  </div>
                 </div>
-								</div>
               </div>
             );
           } else {

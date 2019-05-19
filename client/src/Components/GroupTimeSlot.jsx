@@ -2,7 +2,7 @@ import React from "react";
 import GroupTimeUnit from "./GroupTimeUnit";
 
 
-import styles from "../styles/GroupTimeSlot.css";
+import styles from "../styles/GroupTimeSlot.module.css";
 
 const UNIT_INCREMENTS = 15;
 

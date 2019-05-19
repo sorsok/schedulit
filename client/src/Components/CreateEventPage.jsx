@@ -8,8 +8,8 @@ import ChooseHours from "./ChooseHours";
 import createEvent from '../queries/createEvent';
 import userEvents from '../queries/userEvents';
 
-import appStyles from '../styles/App.css';
-import styles from "../styles/CreateEventPage.css";
+import appStyles from '../styles/App.module.css';
+import styles from "../styles/CreateEventPage.module.css";
 
 class CreateEventPage extends Component {
   constructor(props) {
