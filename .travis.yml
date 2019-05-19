@@ -4,14 +4,11 @@ services:
   - docker
 
 before_install:
-  - echo "the value of CI is:"
-  - echo $CI
-  - echo "complete"
   - docker build -t sorsok/react-test -f ./client/Dockerfile.dev ./client
 
 
 script:
-  - docker run sorsok/react-test npm test --coverage
+  - docker run sorsok/react-test npm test -- --coverage
 
 after_success:
   - docker build -t sorsok/schedulit-client ./client
