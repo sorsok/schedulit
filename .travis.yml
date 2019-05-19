@@ -1,3 +1,4 @@
+language: node_js
 sudo: required
 services:
   - docker
@@ -7,7 +8,7 @@ before_install:
 
 
 script:
-  - docker run sorsok/react-test npm run test -- --coverage
+  - docker run sorsok/react-test npm test --coverage
 
 after_success:
   - docker build -t sorsok/schedulit-client ./client
