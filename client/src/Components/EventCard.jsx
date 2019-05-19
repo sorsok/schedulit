@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import copy from '../assets/copy.png'
 
-import styles from "../styles/EventCard.css";
+import styles from "../styles/EventCard.module.css";
 
 class EventCard extends React.Component {
   constructor(props) {

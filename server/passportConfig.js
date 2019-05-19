@@ -1,6 +1,6 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
-const { User } = require('../database/models');
+const { User } = require('./database/models');
 
 module.exports.ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -31,7 +31,7 @@ module.exports.getPassport = () => {
       {
         clientID: process.env.GOOGLE_ID,
         clientSecret: process.env.GOOGLE_SECRET,
-        callbackURL: '/auth/google/callback'
+        callbackURL: process.env.HOST + '/auth/google/callback'
       },
       (token, refreshToken, profile, done) => {
         User.findOneAndUpdate(

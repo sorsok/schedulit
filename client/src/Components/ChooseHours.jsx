@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/ChooseHours.css';
+import styles from '../styles/ChooseHours.module.css';
 
 const INCREMENT = 0.25;
 const HOURS_IN_DAY = 24;

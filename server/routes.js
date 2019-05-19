@@ -19,11 +19,11 @@ mainRouter
   .get('/auth/google/callback', handleCallback, sendAfterAuthIndex)
 
   // nginx should do this
-  .get('/', ensureAuthenticated, sendIndex)
-  .get('/login', ensureNotAuthenticated, sendIndex)
-  .get('/logout', ensureAuthenticated, logout)
-  .get('/events/:id', ensureAuthenticated, sendIndex)
-  .get('/events/new', ensureAuthenticated, sendIndex);
+  // .get('/', ensureAuthenticated, sendIndex)
+  // .get('/login', ensureNotAuthenticated, sendIndex)
+  .get('/logout', ensureAuthenticated, logout);
+// .get('/events/:id', ensureAuthenticated, sendIndex)
+// .get('/events/new', ensureAuthenticated, sendIndex);
 
 
 module.exports.mainRouter = mainRouter;

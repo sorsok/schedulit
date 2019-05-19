@@ -6,7 +6,7 @@ import IndividualPreview from './IndividualPreview';
 import Navigation from './Navigation';
 
 import createParticipation from '../queries/createParticipation';
-import appStyles from '../styles/App.css';
+import appStyles from '../styles/App.module.css';
 import loader from '../assets/loader.gif';
 
 //TODO fix order of dates rendered

@@ -12,7 +12,7 @@ module.exports = {
   })
   ,
   sendAfterAuthIndex: (req, res) => {
-    res.redirect('/after-auth.html');
+    res.redirect('/authSuccessful');
   },
   passport: passport
 }

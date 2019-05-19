@@ -1,6 +1,6 @@
 import React from 'react';
 import SelectableTimeUnit from './SelectableTimeUnit';
-import styles from '../styles/SelectableTimeSlot.css'
+import styles from '../styles/SelectableTimeSlot.module.css'
 
 const UNIT_INCREMENTS = 15;
 
