@@ -4,6 +4,9 @@ services:
   - docker
 
 before_install:
+  - echo "the value of CI is:"
+  - echo $CI
+  - echo "complete"
   - docker build -t sorsok/react-test -f ./client/Dockerfile.dev ./client
 
 
