@@ -2,12 +2,7 @@ import React from 'react';
 import styles from '../styles/TimeAxisUnit.module.css';
 
 class TimeAxisUnit extends React.Component {
-	constructor(props) {
-		super(props);
-		this.displayLabel = this.displayLabel.bind(this);
-	}
-
-	displayLabel() {
+	displayLabel = () => {
 		if (this.props.timestamp.getMinutes() === 0
 			// || this.props.display
 		) {

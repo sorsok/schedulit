@@ -67,7 +67,7 @@ class EventDetailsPage extends React.Component {
     if (!title) {
       return (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <img className={appStyles.loader} src={loader} />
+          <img alt="loader" className={appStyles.loader} src={loader} />
         </div>
       );
     }

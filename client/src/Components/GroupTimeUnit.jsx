@@ -3,11 +3,7 @@ import styles from '../styles/GroupTimeUnit.module.css';
 
 
 class GroupTimeUnit extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  renderSelections() {
+  renderSelections = () => {
     if (!this.props.selectable) {
       return <div className={styles.unselectable} />
     }

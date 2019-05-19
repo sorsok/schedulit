@@ -8,13 +8,6 @@ const UNIT_INCREMENTS = 15;
 
 
 class GroupTimeSlot extends React.Component {
-  constructor(props) {
-    super(props);
-    this.hasUserSelected = this.hasUserSelected.bind(this);
-    this.haveOtherParticipantsSelected = this.haveOtherParticipantsSelected.bind(this);
-    this.isTimeStampSelectable = this.isTimeStampSelectable.bind(this);
-  }
-
   timestampLiesInSlot(timestamp, timeSlot) {
     return (
       timestamp.getTime() >= timeSlot.startTime.getTime() &&
@@ -22,7 +15,7 @@ class GroupTimeSlot extends React.Component {
     );
   }
 
-  createTimeStamps() {
+  createTimeStamps = () => {
     const numberOfTimeStamps = (this.props.minMaxTime.latestTimeInDay - this.props.minMaxTime.earliestTimeInDay) / (UNIT_INCREMENTS * 60 * 1000);
     const timeStamps = [];
     for (let i = 0; i < numberOfTimeStamps; i++) {
@@ -32,19 +25,19 @@ class GroupTimeSlot extends React.Component {
     return timeStamps;
   }
 
-  isTimeStampSelectable(timeStamp) {
+  isTimeStampSelectable = (timeStamp) => {
     return this.props.availableSlots.some(slot => {
       return this.timestampLiesInSlot(timeStamp, slot);
     })
   }
 
-  hasUserSelected(timeStamp) {
+  hasUserSelected = (timeStamp) => {
     const { unavailable, timeAvailable } = this.props.participations.myParticipation;
     if (unavailable) return false;
     return timeAvailable.some(slot => this.timestampLiesInSlot(timeStamp, slot));
   }
 
-  haveOtherParticipantsSelected(timeStamp) {
+  haveOtherParticipantsSelected = (timeStamp) => {
     return this.props.participations.otherParticipations.map(({ unavailable, timeAvailable }) => {
       if (unavailable) return false;
       return timeAvailable.some(slot => this.timestampLiesInSlot(timeStamp, slot));

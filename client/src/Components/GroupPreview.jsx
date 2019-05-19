@@ -12,11 +12,6 @@ import appStyles from '../styles/App.module.css';
 import loader from '../assets/loader.gif';
 
 class GroupPreview extends React.Component {
-  constructor(props) {
-    super(props);
-    this.renderGroupAvailability = this.renderGroupAvailability.bind(this);
-  }
-
   parseTimeSlot(slot) {
     return {
       startTime: new Date(slot.startTime),
@@ -24,12 +19,12 @@ class GroupPreview extends React.Component {
     }
   }
 
-  renderGroupAvailability() {
+  renderGroupAvailability = () => {
     console.log(this.props);
     if (this.props.loading) {
       return (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <img className={appStyles.loader} src={loader} />
+          <img alt="loader" className={appStyles.loader} src={loader} />
         </div>);
     }
     const { minMaxTime, availableDates, otherParticipations, myParticipation } = this.props;
@@ -39,7 +34,7 @@ class GroupPreview extends React.Component {
       user: myParticipation.myParticipation.user
     }
     const availableSlots = myParticipation.myParticipation.event.availableSlots.map(this.parseTimeSlot);
-    const otherParticipationsParsed = [];
+    let otherParticipationsParsed = [];
     if (otherParticipations.otherParticipations) {
       otherParticipationsParsed = otherParticipations.otherParticipations.map(({ unavailable, timeAvailable, user }) => {
         return {

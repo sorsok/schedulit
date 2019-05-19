@@ -3,10 +3,6 @@ import React from "react";
 import styles from "../styles/Legend.module.css";
 
 class Legend extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className={styles.container}>

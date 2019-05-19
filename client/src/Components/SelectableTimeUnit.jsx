@@ -2,12 +2,7 @@ import React from 'react';
 import styles from '../styles/SelectableTimeUnit.module.css';
 
 class SelectableTimeUnit extends React.Component {
-  constructor(props) {
-    super(props);
-    this.getClassName = this.getClassName.bind(this);
-  }
-
-  getClassName() {
+  getClassName = () => {
     let className = styles.unit + ' ';
     if (!this.props.selectable) {
       className += styles.unselectable;
