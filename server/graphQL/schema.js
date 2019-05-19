@@ -6,9 +6,9 @@ const {
   GraphQLBoolean,
   GraphQLList,
   GraphQLInputObjectType
-} = require('server/graphQL');
+} = require('graphql');
 
-const { User, Participation, Event } = require('../../database/models');
+const { User, Participation, Event } = require('../database/models');
 
 const TimeSlotType = new GraphQLObjectType({
   name: 'TimeSlot',
