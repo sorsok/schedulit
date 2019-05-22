@@ -21,7 +21,7 @@ class UserEventsPage extends React.Component {
     if (this.props.data.loading) {
       return <img alt="loader" className={appStyles.loader} src={loader} />;
     }
-    if (!this.props.data.me) {
+    if (!this.props.data.me && !this.props.data.loading) {
       this.props.history.push('/login');
       return <div />;
     }
