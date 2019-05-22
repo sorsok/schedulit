@@ -5,13 +5,15 @@
       "name": "client",
       "image": "sorsok/schedulit-client",
       "hostname": "client",
-      "essential": false
+      "essential": false,
+      "memory": 128
     },
     {
       "name": "server",
       "image": "sorsok/schedulit-server",
       "hostname": "api",
-      "essential": false
+      "essential": false,
+      "memory": 128
     },
     {
       "name": "nginx",
@@ -26,7 +28,8 @@
       "links": [
         "client",
         "server"
-      ]
+      ],
+      "memory": 128
     }
   ]
 }
