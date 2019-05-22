@@ -31,7 +31,7 @@ module.exports.getPassport = () => {
       {
         clientID: process.env.GOOGLE_ID,
         clientSecret: process.env.GOOGLE_SECRET,
-        callbackURL: process.env.HOST + '/auth/google/callback'
+        callbackURL: process.env.DOMAIN + '/auth/google/callback'
       },
       (token, refreshToken, profile, done) => {
         User.findOneAndUpdate(

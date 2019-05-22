@@ -1,7 +1,9 @@
-.env
+*.env
 node_modules
 bundle.js
 .DS_Store
 .vscode
-client/dist/
+client/build/
+client/coverage/
 *.pem
+secrets/

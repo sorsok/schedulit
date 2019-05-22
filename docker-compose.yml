@@ -12,7 +12,7 @@ services:
       context: ./server
       dockerfile: Dockerfile.dev
     env_file:
-      ./.env
+      ./dev.env
     volumes:
       - "./server:/app"
       - "/app/node_modules"
@@ -33,6 +33,6 @@ services:
     image: mongo
     restart: always
     env_file:
-      ./.env
+      ./dev.env
 
     

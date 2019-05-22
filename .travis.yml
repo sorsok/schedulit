@@ -19,3 +19,19 @@ after_success:
   - docker push sorsok/schedulit-server 
   - docker push sorsok/schedulit-nginx 
 
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-1
+  app: schedulit
+  env: Schedulit-env
+  bucket_name: elasticbeanstalk-us-east-1-663540413175
+  bucket_path: schedulit
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: 
+    secure: $AWS_SECRET_KEY
+    
+
+
+
