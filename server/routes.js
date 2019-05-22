@@ -1,11 +1,8 @@
 const express = require('express');
 const path = require('path');
+const os = require('os');
 const { ensureAuthenticated, ensureNotAuthenticated } = require('./passportConfig');
-const { passport, authenticateUser, handleCallback, sendAfterAuthIndex } = require('./passportControllers');
-
-const sendIndex = (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
-};
+const { passport, authenticateUser, handleCallback, authSuccessful } = require('./passportControllers');
 
 const logout = (req, res) => {
   req.logout();
@@ -15,16 +12,14 @@ const logout = (req, res) => {
 
 const mainRouter = express.Router();
 mainRouter
+  .get('/test', (req, res) => {
+    console.log(os.hostname());
+    res.send('hi');
+
+  })
   .get('/auth/google', authenticateUser)
-  .get('/auth/google/callback', handleCallback, sendAfterAuthIndex)
-
-  // nginx should do this
-  // .get('/', ensureAuthenticated, sendIndex)
-  // .get('/login', ensureNotAuthenticated, sendIndex)
+  .get('/auth/google/callback', handleCallback, authSuccessful)
   .get('/logout', ensureAuthenticated, logout);
-// .get('/events/:id', ensureAuthenticated, sendIndex)
-// .get('/events/new', ensureAuthenticated, sendIndex);
-
 
 module.exports.mainRouter = mainRouter;
 module.exports.passport = passport;

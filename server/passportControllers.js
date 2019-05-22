@@ -11,8 +11,8 @@ module.exports = {
     failureRedirect: '/login'
   })
   ,
-  sendAfterAuthIndex: (req, res) => {
-    res.redirect('/authSuccessful');
+  authSuccessful: (req, res) => {
+    res.redirect(process.env.BASE_URL + '/authSuccessful');
   },
   passport: passport
 }
