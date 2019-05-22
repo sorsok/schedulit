@@ -18,8 +18,12 @@ class UserEventsPage extends React.Component {
   }
 
   renderEvents = () => {
-    if (this.props.data.loading || !this.props.data.me) {
+    if (this.props.data.loading) {
       return <img alt="loader" className={appStyles.loader} src={loader} />;
+    }
+    if (!this.props.data.me) {
+      this.props.history.push('/login');
+      return <div />;
     }
     const { participations } = this.props.data.me;
     return participations.map(({ event }, index) => {
