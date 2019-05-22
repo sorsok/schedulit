@@ -20,8 +20,7 @@ class GroupPreview extends React.Component {
   }
 
   renderGroupAvailability = () => {
-    console.log(this.props);
-    if (this.props.loading) {
+    if (this.props.myParticipation.loading || this.props.otherParticipations.loading) {
       return (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
           <img alt="loader" className={appStyles.loader} src={loader} />
